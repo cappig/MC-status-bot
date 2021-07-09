@@ -1,0 +1,36 @@
+{
+  "name": "mc-server-status-bot",
+  "version": "1.0.0",
+  "description": "A discord bot that displays if a MC server is online",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cappig/MC-server-status-bot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "minecraft"
+  ],
+  "author": "Cappig",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cappig/MC-server-status-bot/issues"
+  },
+  "homepage": "https://github.com/cappig/MC-server-status-bot#readme",
+  "dependencies": {
+    "chart.js": "^2.9.4",
+    "chartjs-node-canvas": "^3.1.0",
+    "discord.js": "^12.5.3",
+    "dotenv": "^9.0.2",
+    "mongoose": "^5.12.8",
+    "pingmc": "^3.0.3",
+    "rss-parser": "^3.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
