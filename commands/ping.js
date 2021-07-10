@@ -42,20 +42,22 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
                 .setColor('#008000')
                 .setTitle(`${ip} is online`)
-                .setDescription('`' + result.motd.clear + '`')
+                .setDescription(result.motd.clear);
+
+            // Add a players coinnected field if available
+            if (result.players.list.length > 0) {
+                embed.addField('Players conncted:', '`' + result.players.list.join(' ') + '`', false)
+            }
+
+            embed
                 .addFields(
                     { name: 'Playesrs: ', value: 'Online: ' + '`' + result.players.online + '`' + '\nMax: ' + '`' + result.players.max + '`', inline: true },
                     { name: 'Version: ', value: '`' + result.version.name + '`', inline: true }
                 )
                 .attachFiles(attachment)
-                .setThumbnail("attachment://icon.png")
+                .setThumbnail("attachment://icon.png");
+
             message.channel.send(embed);
-
-            /* TODO: implement a list of connected players if available
-            if (result.players.list) {
-                embed.addField('Players connacted:', '`' + result.players.list.toString() + '`', false)
-            }*/
-
             message.channel.stopTyping();
             return;
         }
