@@ -38,7 +38,12 @@ module.exports = {
         
         // Server is online
         function online (result) {
-            const attachment = new Discord.MessageAttachment(Buffer.from(result.favicon.icon.substr('data:image/png;base64,'.length), 'base64'), "icon.png")
+            // If there is no icon use pack.png
+            if (result.favicon.icon == null) {
+                var attachment = new Discord.MessageAttachment("https://i.ibb.co/YkRLWG8/down.png", "icon.png");
+            } else {
+                var attachment = new Discord.MessageAttachment(Buffer.from(result.favicon.icon.substr('data:image/png;base64,'.length), 'base64'), "icon.png")
+            }
             const embed = new Discord.MessageEmbed()
                 .setColor('#008000')
                 .setTitle(`${ip} is online`)
@@ -68,7 +73,7 @@ module.exports = {
                 .setColor('#FF0000')
                 .setTitle(`${ip} is offline`)
                 .setDescription(errortxt)
-                .setThumbnail('https://i.ibb.co/xzPRSmV/down.jpg')
+                .setThumbnail("https://i.ibb.co/YkRLWG8/down.png")
             message.channel.send(embed);
 
             message.channel.stopTyping();

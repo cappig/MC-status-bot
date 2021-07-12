@@ -14,7 +14,7 @@ module.exports = {
         // Log the status
         if (result) { 
             if (result.players.list.length != 0) {
-                dbdata = { $push: { logs: { online: true, playersOnline: result.players.online, playerNamesOnline: result.players.list.length.toString() }}}
+                dbdata = { $push: { logs: { online: true, playersOnline: result.players.online, playerNamesOnline: result.players.list.toString() }}}
             } else {
                 dbdata = { $push: { logs: { online: true, playersOnline: 200 }}}
             }

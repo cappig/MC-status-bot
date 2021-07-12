@@ -24,7 +24,7 @@ module.exports = {
 
         // Check if IP is undefined - if ip is undefined there are no logs
         if(!data.IP) {
-            message.channel.send('Please specify a IP adress! You can use *mc!setip <ip>*');
+            message.channel.send('There are no logs to chart!');
             return;
         } 
 
@@ -46,11 +46,8 @@ module.exports = {
 
             // Sort the array from smallest to largest
             var sorted = ylbl.sort((a, b) => a - b );
-
-            var smallest = sorted[0],                      
-                largest  = sorted[sorted.length - 1];
             
-            var embeddescr = `There have been a maximum of ${largest} players online at onece, and a minimum of ${smallest}.`
+            var embeddescr = `There have been a maximum of ${sorted[sorted.length - 1]} players online at onece, and a minimum of ${sorted[0]}.`
         }
         if (args == 'uptime') {
             // uptime
