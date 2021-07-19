@@ -8,8 +8,7 @@ Create graphs, and log the status of a server:
 
 ![img2](https://i.ibb.co/grR1NY9/chartex.png)
 
-### :arrow_right: **[Add this bot to your server](https://discord.com/api/oauth2/authorize?client_id=816747912888975362&permissions=8&scope=bot)**
-(The bot needs the administrator permission to create modify and remove the channels.)
+### :arrow_right: **[Add this bot to your server](https://discord.com/oauth2/authorize?client_id=816747912888975362&scope=bot&permissions=268749904)**
 
 ## *Commands*
 **Admin command:**

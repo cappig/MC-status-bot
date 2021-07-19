@@ -9,11 +9,6 @@ module.exports = {
             return;
         }
 
-        if(!message.guild.me.hasPermission("ADMINISTRATOR")) {
-            message.channel.send('I have to have an administrator permission in order to set up and update the channels!');
-            return;
-        }
-
         // Get the ip of the server
         const result = await Server.findById(message.guild.id)
                                 .catch((err) => console.error(err));
