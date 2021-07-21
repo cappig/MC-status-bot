@@ -27,7 +27,7 @@
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
     "fast-xml-parser": "^3.19.0",
-    "mongoose": "^5.12.8",
+    "mongoose": "^5.13.3",
     "node-libcurl": "^2.3.3",
     "pingmc": "^3.0.3"
   },
