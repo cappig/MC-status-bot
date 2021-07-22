@@ -12,6 +12,7 @@ module.exports = {
                             '`mc!setup` - set up the channels that will display the status of a selected server\n' +
                             '`mc!rmchann` - remove the monitoring channels\n' +
                             '`mc!news` - see the latest articles from minecraft.net\n' +
+                            '`mc!chart` *uptime/playersonline* - make a chart with the logged info\n' +
                             '\n[Invite to a server](https://discord.com/oauth2/authorize?client_id=816747912888975362&scope=bot&permissions=268749904) | [Privacy policy](https://github.com/cappig/MC-status-bot/blob/main/miscellaneous/Privacy_policy.md) | [Github](https://github.com/cappig/MC-status-bot)'
 
         const embed = new Discord.MessageEmbed()
