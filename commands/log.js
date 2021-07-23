@@ -22,7 +22,7 @@ module.exports = {
         // Write to database
         Server.findByIdAndUpdate({_id: message.guild.id}, {"Logging": logging}, {useFindAndModify: false})
             .catch((err) => console.error(err))
-
+            
         if (logging == true) {
             // Create a log document
             const log = new Log({
@@ -30,12 +30,16 @@ module.exports = {
                 logs: []
             });
             log.save()
-                .catch((err) => console.error(err));
+                .catch((err) => {
+                    // This code means that the document already exists. We can just igni=ore this since no new document is created
+                    if (!err.code == 11000) {
+                        console.error(err);
+                    }
+                })
+                .then (message.channel.send(`Logging has been turned ${args[0]}`))
         } else {
             Log.findOneAndRemove({_id: message.guild.id}, {useFindAndModify: false})
                 .catch((err) => console.error(err))
         }
-        
-        message.channel.send(`Logging has been turned ${args[0]}`)
     }
 }

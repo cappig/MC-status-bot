@@ -17,21 +17,28 @@ module.exports = {
                 new PingMC(server.IP)
                     .ping()
                     .then((result) => {
-                        if (result.version) {
+                        console.log('aa')
+                        if (result) {
                             // server is online
-                            logger.execute(result, server);
+                            if (server.Logging == true) {
+                                logger.execute(result, server);
+                            }
                             channupd.execute(client, server, result);
                         }
                         else {
                             // server is offline
-                            logger.execute('', server);
+                            if (server.Logging == true) {
+                                logger.execute('', server);
+                            }
                             channupd.execute(client, server, '');
                         };
                     })
                     .catch((error) => {
                         if (error.code == "ENOTFOUND" || error.code == "ECONNREFUSED" || error.message == "Timed out") {
                             // server is offline
-                            logger.execute('', server);
+                            if (server.Logging == true) {
+                                logger.execute('', server);
+                            }
                             channupd.execute(client, server, '');
                         }
                         else console.error(error); return;

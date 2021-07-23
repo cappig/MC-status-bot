@@ -6,17 +6,17 @@ const Server = require('../database/ServerSchema');
 module.exports = {
     name:'chart',
     async execute(message, args) {
+        // Get the logs
+        const logs = await Log.findById({_id: message.guild.id})
+                            .catch((err) => console.error(err));
 
-        if(!(args.toString() == 'playersonline' || args.toString() == 'uptime')) {
-            message.channel.send(`Please specify what you want to chart! Use *mc!chart uptime* or *mc!chart playersonline*`);
+        // Check if loggs exist
+        if (logs == null) {
+            message.channel.send(`This server doesn't have any loges. Make sure that logging is turned on by using the *mc!log on* command.`);
             return;
         }
 
         message.channel.startTyping();
-
-        // Get the logs
-        const logs = await Log.findById({_id: message.guild.id})
-                            .catch((err) => console.error(err));
 
         // Get the ip. data.IP holds the ip
         const data = await Server.findById({_id: message.guild.id})
@@ -30,50 +30,98 @@ module.exports = {
 
         var xlbl = [], ylbl = [];
 
-        if (args == 'playersonline') { 
-            // Set the options for chart.js
-            var type = 'line',
-                label = '# of players',
-                embedtitle = `Number of players online on ${data.IP}`,
-                fill = false;
+        switch (true) { 
+            case (args == 'playersonline'):
+                // Set the options for chart.js
+                var type = 'line',
+                    label = '# of players',
+                    embedtitle = `Number of players online on ${data.IP}`,
+                    fill = false;
 
-            logs.logs.forEach(log => {
-                if (log.online == false) ylbl.push(0);
-                else ylbl.push(log.playersOnline);
+                logs.logs.forEach(log => {
+                    if (log.online == false) ylbl.push(0);
+                    else ylbl.push(log.playersOnline);
 
-                xlbl.push(`${log.timestamp.getHours()}:${log.timestamp.getMinutes()}`)
-            })
+                    xlbl.push(`${log.timestamp.getHours()}:${log.timestamp.getMinutes()}`)
+                })
 
-            // Sort the array from smallest to largest
-            var sorted = ylbl.sort((a, b) => a - b );
-            
-            var embeddescr = `There have been a maximum of ${sorted[sorted.length - 1]} players online at onece, and a minimum of ${sorted[0]}.`
-        }
-        if (args == 'uptime') {
-            // uptime
-            var up = 0, down = 0;
+                // Sort the array from smallest to largest
+                const sortedlbl = ylbl.sort((a, b) => a - b );
+                
+                var embeddescr = `There have been a maximum of ${sortedlbl[sortedlbl.length - 1]} players online at onece, and a minimum of ${sortedlbl[0]}.`
+                break;
+            case (args == 'uptime'):
+                // Set the options for chart.js
+                var type = 'line',
+                    label = 'uptime',
+                    embedtitle = `Server uptime`,
+                    fill = true,
+                    max = 1;
 
-            // Set the options for chart.js
-            var type = 'line',
-                label = 'uptime',
-                embedtitle = `Server uptime`,
-                fill = true,
-                max = 1;
+                var up = 0, down = 0;
 
-            // calculate the uptime and percentage
-            logs.logs.forEach(log => {
-                if(log.online == true) { 
-                    up++
-                    ylbl.push(1);
-                } else {
-                    down++
-                    ylbl.push(0);
+                // calculate the uptime and percentage
+                logs.logs.forEach(log => {
+                    if(log.online == true) { 
+                        up++
+                        ylbl.push(1);
+                    } else {
+                        down++
+                        ylbl.push(0);
+                    }
+
+                    xlbl.push(`${log.timestamp.getHours()}:${log.timestamp.getMinutes()}`)
+
+                })
+                var embeddescr = `${data.IP} was up for ${up * 5} minutes and down for ${down * 5} minutes. This means that ${data.IP} has a uptime percentage of ${((1 - down/up)*100).toFixed(2)}%`
+                break;
+            case (args == 'mostactive'):
+                var numberofocc = {},
+                playerslist = [];
+
+                // Set the options for chart.js
+                var type = 'bar',
+                    label = 'number of minutes played',
+                    embedtitle = `Most active players on ${data.IP}`;
+
+                var embeddescr = ``;
+
+                // Get all the playters recorded in the logs into a array
+                logs.logs.forEach(log => {
+                    if (log.playerNamesOnline) {
+                        const players = log.playerNamesOnline.split(",");
+                        playerslist.push(...players);
+                    }
+                });
+
+                if (playerslist.length == 0) {
+                    message.channel.send(`There were no player names logged. Either there were on players server or your server doesn't provide the list of connected players.`);
+                    message.channel.stopTyping();
+                    return;
                 }
 
-                xlbl.push(`${log.timestamp.getHours()}:${log.timestamp.getMinutes()}`)
+                // Create a object with the number of times a player has been online
+                playerslist.forEach(function(e){
+                    if (numberofocc.hasOwnProperty(e)) numberofocc[e]++;
+                    else numberofocc[e]=1;
+                })
 
-            })
-            var embeddescr = `${data.IP} was up for ${up * 5} minutes and down for ${down * 5} minutes. This means that ${data.IP} has a uptime percentage of ${(up/down * 100).toFixed(2)}`
+                // Sort it by the value
+                const sorted = Object.entries(numberofocc).sort(([c1, v1], [c2, v2]) => {
+                    return v2 - v1;
+                }).reduce((o, [k, v]) => (o[k] = v, o), {});
+
+                const arr = Object.entries(sorted);
+
+                arr.forEach(element => {
+                    xlbl.push(element[0]);
+                    ylbl.push(element[1] *5);
+                });
+                break;
+            default:
+                message.channel.send(`Please specify what you want to chart! Use *mc!chart uptime*, *mc!chart playersonline* or *mc!chart mostactive*`);
+                message.channel.stopTyping();
+                return;
         }
 
         // Change the width of the chart based on the number of lines in the log
@@ -123,6 +171,7 @@ module.exports = {
                     scales: {
                         yAxes: [{
                             ticks: {
+                                beginAtZero: true,
                                 fontColor: "rgb(247, 247, 247)",
                                 fontSize: 15,
                                 stepSize: 1,

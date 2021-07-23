@@ -5,7 +5,7 @@ module.exports = {
         // Check if server has more than 288 logs
         const cursor = await Log.aggregate([{$match: {_id: server.id}}, {$project: {logs: {$size: '$logs'}}}]);
         cursor.forEach(size => {
-            if(size.logs === 289) {
+            if(size.logs == 289) {
                 Log.findByIdAndUpdate({ _id: server.id }, { $pop : {"logs" : -1}}, {useFindAndModify: false})
                     .catch((err) => console.error(err))
             }
@@ -16,7 +16,7 @@ module.exports = {
             if (result.players.list.length != 0) {
                 dbdata = { $push: { logs: { online: true, playersOnline: result.players.online, playerNamesOnline: result.players.list.toString() }}}
             } else {
-                dbdata = { $push: { logs: { online: true, playersOnline: 200 }}}
+                dbdata = { $push: { logs: { online: true, playersOnline: result.players.online }}}
             }
         } else {
             dbdata = { $push: { logs: { online: false}}}
