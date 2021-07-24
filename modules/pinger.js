@@ -17,7 +17,7 @@ module.exports = {
                 new PingMC(server.IP)
                     .ping()
                     .then((result) => {
-                        console.log('aa')
+
                         if (result) {
                             // server is online
                             if (server.Logging == true) {
