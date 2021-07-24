@@ -29,11 +29,11 @@ Create graphs, and log the status of a server:
 
 `mc!ping [ip]` Ping a specified ip. You can use the command with no arguments to ping the ip specified by using the `mc!setip` command.
 
-`mc!log uptime` Create a chart of players online over time on the server.
+`mc!chart uptime` Create a chart of players online over time on the server.
 
-`mc!log playersonline` Create a chart of server uptime and calculate the uptime percentage.
+`mc!chart playersonline` Create a chart of server uptime and calculate the uptime percentage.
 
-`mc!log mostactive` Create a bar chart with the number of minutes each player spent on th server.
+`mc!chart mostactive` Create a bar chart with the number of minutes each player spent on th server.
 
 `mc!news` Get the latest articles from minecraft.net
 
