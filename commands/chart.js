@@ -34,28 +34,27 @@ module.exports = {
             case (args == 'playersonline'):
                 // Set the options for chart.js
                 var type = 'line',
-                    label = '# of players',
-                    embedtitle = `Number of players online on ${data.IP}`,
-                    fill = false;
+                    xtype = 'time',
+                    label = 'number of players',
+                    line = 2,
+                    embedtitle = `Number of players online on ${data.IP}`;
 
                 logs.logs.forEach(log => {
                     if (log.online == false) ylbl.push(0);
                     else ylbl.push(log.playersOnline);
 
-                    xlbl.push(`${log.timestamp.getHours()}:${log.timestamp.getMinutes()}`)
+                    xlbl.push(log.timestamp);
                 })
-
-                // Sort the array from smallest to largest
-                const sortedlbl = ylbl.sort((a, b) => a - b );
                 
-                var embeddescr = `There have been a maximum of ${sortedlbl[sortedlbl.length - 1]} players online at onece, and a minimum of ${sortedlbl[0]}.`
+                var embeddescr = `There have been a maximum of ${Math.max( ...ylbl )} players online at onece, and a minimum of ${Math.min( ...ylbl )}.`
                 break;
             case (args == 'uptime'):
                 // Set the options for chart.js
                 var type = 'line',
+                    xtype = 'time',
                     label = 'uptime',
                     embedtitle = `Server uptime`,
-                    fill = true,
+                    line = 2,
                     max = 1;
 
                 var up = 0, down = 0;
@@ -70,8 +69,7 @@ module.exports = {
                         ylbl.push(0);
                     }
 
-                    xlbl.push(`${log.timestamp.getHours()}:${log.timestamp.getMinutes()}`)
-
+                    xlbl.push(log.timestamp);
                 })
                 var embeddescr = `${data.IP} was up for ${up * 5} minutes and down for ${down * 5} minutes. This means that ${data.IP} has a uptime percentage of ${((1 - down/up)*100).toFixed(2)}%`
                 break;
@@ -82,6 +80,7 @@ module.exports = {
                 // Set the options for chart.js
                 var type = 'bar',
                     label = 'number of minutes played',
+                    line = 1,
                     embedtitle = `Most active players on ${data.IP}`;
 
                 var embeddescr = ``;
@@ -155,13 +154,18 @@ module.exports = {
                     datasets: [{
                         label,
                         data: ylbl,
-                        fill,
+                        fill: true,
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderColor: 'rgba(255,99,132,1)',
-                        borderWidth: 1
+                        borderWidth: line
                     }]
                 },
-                options: { 
+                options: {
+                    elements: {
+                        point:{
+                            radius: 0
+                        }
+                    },
                     legend: {
                         labels: {
                             fontColor: "rgb(247, 247, 247)",
@@ -185,6 +189,7 @@ module.exports = {
                             }
                         }],
                         xAxes: [{
+                            type: xtype,
                             ticks: {
                                 fontColor: "rgb(247, 247, 247)",
                                 fontSize: 13,
