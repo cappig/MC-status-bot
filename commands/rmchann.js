@@ -20,9 +20,9 @@ module.exports = {
         }
 
         // Remove the channels
-        message.guild.channels.cache.get(result.CategoryId).delete();
         message.guild.channels.cache.get(result.StatusChannId).delete();
         message.guild.channels.cache.get(result.NumberChannId).delete();
+        message.guild.channels.cache.get(result.CategoryId).delete();
 
         // Remove from db
         Server.findByIdAndUpdate({_id: message.guild.id}, {$unset: {StatusChannId: "", NumberChannId: "", CategoryId: ""} }, {useFindAndModify: false})

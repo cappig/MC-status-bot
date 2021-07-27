@@ -10,9 +10,9 @@ module.exports = {
         const logs = await Log.findById({_id: message.guild.id})
                             .catch((err) => console.error(err));
 
-        // Check if loggs exist
+        // Check if logs exist
         if (logs == null) {
-            message.channel.send(`This server doesn't have any loges. Make sure that logging is turned on by using the *mc!log on* command.`);
+            message.channel.send(`This server doesn't have any logs. Make sure that logging is turned on by using the *mc!log on* command.`);
             return;
         }
 
@@ -53,7 +53,7 @@ module.exports = {
                 var type = 'line',
                     xtype = 'time',
                     label = 'uptime',
-                    embedtitle = `Server uptime`,
+                    embedtitle = `${data.IP}'s uptime`,
                     line = 2,
                     max = 1;
 

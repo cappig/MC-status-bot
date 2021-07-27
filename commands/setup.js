@@ -22,7 +22,13 @@ module.exports = {
         // Create category
         let Category;
         await message.guild.channels.create(`${result.IP}'s status`, {
-            type: 'category'
+            type: 'category',
+            permissionOverwrites: [
+                {
+                    id: message.guild.me.roles.highest,
+                    allow: ['VIEW_CHANNEL', 'MANAGE_CHANNELS', 'CONNECT']
+                }
+            ]
         }) .then((channel) => {
             channel.updateOverwrite(channel.guild.roles.everyone, { CONNECT: false });
             Category = channel;
