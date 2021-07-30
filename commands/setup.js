@@ -1,7 +1,7 @@
 const Server = require('../database/ServerSchema');
 
 module.exports = {
-    name:'setup',
+    name: 'setup',
     async execute(message) {
         // Check if the person is admin
         if (!message.member.hasPermission("ADMINISTRATOR")) {
@@ -11,10 +11,10 @@ module.exports = {
 
         // Get the ip of the server
         const result = await Server.findById(message.guild.id)
-                                .catch((err) => console.error(err));
+            .catch((err) => console.error(err));
 
         // check if server has a defined ip
-        if(!result.IP){ 
+        if (!result.IP) {
             message.channel.send('Please use`mc!setip` to set a ip to monitor!');
             return;
         }
@@ -23,14 +23,14 @@ module.exports = {
         let Category;
         await message.guild.channels.create(`${result.IP}'s status`, {
             type: 'category',
-            permissionOverwrites: [
-                {
-                    id: message.guild.me.roles.highest,
-                    allow: ['VIEW_CHANNEL', 'MANAGE_CHANNELS', 'CONNECT']
-                }
-            ]
-        }) .then((channel) => {
-            channel.updateOverwrite(channel.guild.roles.everyone, { CONNECT: false });
+            permissionOverwrites: [{
+                id: message.guild.me.roles.highest,
+                allow: ['VIEW_CHANNEL', 'MANAGE_CHANNELS', 'CONNECT']
+            }]
+        }).then((channel) => {
+            channel.updateOverwrite(channel.guild.roles.everyone, {
+                CONNECT: false
+            });
             Category = channel;
         })
 
@@ -38,20 +38,28 @@ module.exports = {
         let Status;
         await message.guild.channels.create('Updating status. . .', {
             type: 'voice'
-        }) .then((channel) => {
+        }).then((channel) => {
             channel.setParent(Category.id);
             Status = channel;
         })
         let Number;
         await message.guild.channels.create('Updating players . . .', {
             type: 'voice'
-        }) .then((channel) => {
+        }).then((channel) => {
             channel.setParent(Category.id);
             Number = channel;
         })
 
         // Write to database
-        Server.findByIdAndUpdate({_id: message.guild.id}, {"StatusChannId": Status.id, "NumberChannId": Number.id, "CategoryId": Category.id}, {useFindAndModify: false})
+        Server.findByIdAndUpdate({
+                _id: message.guild.id
+            }, {
+                "StatusChannId": Status.id,
+                "NumberChannId": Number.id,
+                "CategoryId": Category.id
+            }, {
+                useFindAndModify: false
+            })
             .then(() => message.channel.send('The channels heve been created sucesfuly!'))
             .catch((err) => console.error(err))
     }

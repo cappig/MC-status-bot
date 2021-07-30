@@ -5,9 +5,9 @@ const Server = require('../database/ServerSchema');
 
 module.exports = {
     async execute(client) {
-        Server.find({} , (err, servers) => {
+        Server.find({}, (err, servers) => {
             if (err) {
-                console.error(err); 
+                console.error(err);
                 return;
             }
 
@@ -24,8 +24,7 @@ module.exports = {
                                 logger.execute(result, server);
                             }
                             channupd.execute(client, server, result);
-                        }
-                        else {
+                        } else {
                             // server is offline
                             if (server.Logging == true) {
                                 logger.execute('', server);
@@ -40,8 +39,8 @@ module.exports = {
                                 logger.execute('', server);
                             }
                             channupd.execute(client, server, '');
-                        }
-                        else console.error(error); return;
+                        } else console.error(error);
+                        return;
                     })
             }
         })

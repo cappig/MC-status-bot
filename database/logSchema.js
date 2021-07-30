@@ -24,7 +24,7 @@ const logSchema = new Schema({
     }]
 }, {
     versionKey: false,
-    _id: false 
+    _id: false
 })
 
 const Log = mongoose.model('Log', logSchema);

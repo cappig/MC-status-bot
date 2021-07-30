@@ -2,7 +2,7 @@ const Server = require('../database/ServerSchema');
 const Log = require('../database/logSchema');
 
 module.exports = {
-    name:'log',
+    name: 'log',
 
     execute(message, args) {
         // Check if the person is admin
@@ -20,9 +20,15 @@ module.exports = {
         if (args == 'off') var logging = false;
 
         // Write to database
-        Server.findByIdAndUpdate({_id: message.guild.id}, {"Logging": logging}, {useFindAndModify: false})
+        Server.findByIdAndUpdate({
+                _id: message.guild.id
+            }, {
+                "Logging": logging
+            }, {
+                useFindAndModify: false
+            })
             .catch((err) => console.error(err))
-            
+
         if (logging == true) {
             // Create a log document
             const log = new Log({
@@ -31,14 +37,18 @@ module.exports = {
             });
             log.save()
                 .catch((err) => {
-                    // This code means that the document already exists. We can just igni=ore this since no new document is created
+                    // This code means that the document already exists. We can just ignore this since no new document is created
                     if (!err.code == 11000) {
                         console.error(err);
                     }
                 })
-                .then (message.channel.send(`Logging has been turned ${args[0]}`))
+                .then(message.channel.send(`Logging has been turned ${args[0]}`))
         } else {
-            Log.findOneAndRemove({_id: message.guild.id}, {useFindAndModify: false})
+            Log.findOneAndRemove({
+                    _id: message.guild.id
+                }, {
+                    useFindAndModify: false
+                })
                 .catch((err) => console.error(err))
         }
     }

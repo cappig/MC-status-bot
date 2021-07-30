@@ -18,7 +18,7 @@ const serverSchema = new Schema({
         type: String,
         required: false
     },
-    NumberChannId:{
+    NumberChannId: {
         type: String,
         required: false
     },

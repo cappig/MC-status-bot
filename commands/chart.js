@@ -4,11 +4,13 @@ const Log = require('../database/logSchema');
 const Server = require('../database/ServerSchema');
 
 module.exports = {
-    name:'chart',
+    name: 'chart',
     async execute(message, args) {
         // Get the logs
-        const logs = await Log.findById({_id: message.guild.id})
-                            .catch((err) => console.error(err));
+        const logs = await Log.findById({
+                _id: message.guild.id
+            })
+            .catch((err) => console.error(err));
 
         // Check if logs exist
         if (logs == null) {
@@ -19,18 +21,21 @@ module.exports = {
         message.channel.startTyping();
 
         // Get the ip. data.IP holds the ip
-        const data = await Server.findById({_id: message.guild.id})
-                                .catch((err) => console.error(err));
+        const data = await Server.findById({
+                _id: message.guild.id
+            })
+            .catch((err) => console.error(err));
 
         // Check if IP is undefined - if ip is undefined there are no logs
-        if(!data.IP) {
+        if (!data.IP) {
             message.channel.send('There are no logs to chart!');
             return;
-        } 
+        }
 
-        var xlbl = [], ylbl = [];
+        var xlbl = [],
+            ylbl = [];
 
-        switch (true) { 
+        switch (true) {
             case (args == 'playersonline'):
                 // Set the options for chart.js
                 var type = 'line',
@@ -45,7 +50,7 @@ module.exports = {
 
                     xlbl.push(log.timestamp);
                 })
-                
+
                 var embeddescr = `There have been a maximum of ${Math.max( ...ylbl )} players online at onece, and a minimum of ${Math.min( ...ylbl )}.`
                 break;
             case (args == 'uptime'):
@@ -57,11 +62,12 @@ module.exports = {
                     line = 2,
                     max = 1;
 
-                var up = 0, down = 0;
+                var up = 0,
+                    down = 0;
 
                 // calculate the uptime and percentage
                 logs.logs.forEach(log => {
-                    if(log.online == true) { 
+                    if (log.online == true) {
                         up++
                         ylbl.push(1);
                     } else {
@@ -75,7 +81,7 @@ module.exports = {
                 break;
             case (args == 'mostactive'):
                 var numberofocc = {},
-                playerslist = [];
+                    playerslist = [];
 
                 // Set the options for chart.js
                 var type = 'bar',
@@ -100,9 +106,9 @@ module.exports = {
                 }
 
                 // Create a object with the number of times a player has been online
-                playerslist.forEach(function(e){
+                playerslist.forEach(function(e) {
                     if (numberofocc.hasOwnProperty(e)) numberofocc[e]++;
-                    else numberofocc[e]=1;
+                    else numberofocc[e] = 1;
                 })
 
                 // Sort it by the value
@@ -114,7 +120,7 @@ module.exports = {
 
                 arr.forEach(element => {
                     xlbl.push(element[0]);
-                    ylbl.push(element[1] *5);
+                    ylbl.push(element[1] * 5);
                 });
                 break;
             default:
@@ -145,7 +151,11 @@ module.exports = {
 
         // Chart.js
         const chartCallback = (ChartJS) => ChartJS.defaults.global.elements.rectangle.borderWidth = 2;
-        const chartJSNodeCanvas = new ChartJSNodeCanvas({ width, height, chartCallback });
+        const chartJSNodeCanvas = new ChartJSNodeCanvas({
+            width,
+            height,
+            chartCallback
+        });
         (async () => {
             const configuration = {
                 type,
@@ -157,12 +167,13 @@ module.exports = {
                         fill: true,
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderColor: 'rgba(255,99,132,1)',
-                        borderWidth: line
+                        borderWidth: line,
+                        steppedLine: true
                     }]
                 },
                 options: {
                     elements: {
-                        point:{
+                        point: {
                             radius: 0
                         }
                     },
@@ -181,10 +192,10 @@ module.exports = {
                                 stepSize: 1,
                                 max,
                                 callback: function(value, index, values) {
-		                            if(args == 'uptime') { 
-		                                if(value == 1) return 'online';
-		                            	if(value == 0) return 'offline';
-		                            } else return value;
+                                    if (args == 'uptime') {
+                                        if (value == 1) return 'online';
+                                        if (value == 0) return 'offline';
+                                    } else return value;
                                 }
                             }
                         }],
