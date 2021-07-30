@@ -17,7 +17,7 @@ module.exports = {
 
             ip = data.IP;
         } else {
-            ip = args[0].split(':')[0];
+            ip = args[0].split(':')[0].toLowerCase();
         }
 
         message.channel.startTyping();
