@@ -15,7 +15,7 @@ module.exports = {
             command.execute(message, args);
         } catch (error) {
             console.error(error);
-            message.reply("Uh, oh! An error occured while trying to execute that command! (**X  _  X**)")
+            message.reply("Uh, oh! An error occurred while trying to execute that command! (**X  _  X**)")
         }
     }
 }

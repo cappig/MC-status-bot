@@ -91,7 +91,7 @@ module.exports = {
 
                 var embeddescr = ``;
 
-                // Get all the playters recorded in the logs into a array
+                // Get all the players recorded in the logs into a array
                 logs.logs.forEach(log => {
                     if (log.playerNamesOnline) {
                         const players = log.playerNamesOnline.split(",");

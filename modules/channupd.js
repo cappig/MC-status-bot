@@ -3,7 +3,7 @@ module.exports = {
         // Check if channels are defined
         if (!server.StatusChannId || !server.NumberChannId || !server.CategoryId) return;
 
-        // Change the name of the category to the right ip if it isnt
+        // Change the name of the category to the right ip if it isn't
         if (!(client.channels.cache.get(server.CategoryId).name == server.IP + `'s status`)) {
             client.channels.cache.get(server.CategoryId).setName(server.IP + `'s status`);
         }

@@ -60,7 +60,7 @@ module.exports = {
             }, {
                 useFindAndModify: false
             })
-            .then(() => message.channel.send('The channels heve been created sucesfuly!'))
+            .then(() => message.channel.send('The channels have been created successfully!'))
             .catch((err) => console.error(err))
     }
 }

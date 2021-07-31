@@ -1,6 +1,6 @@
 /* This script can be run if the bot was offline for a time.
- * It will check if the bot is in a guild that isnt in
- * the database. This happends if it the bot was invited 
+ * It will check if the bot is in a guild that isn't in
+ * the database. This happens if it the bot was invited 
  * while it was offline.
  */
 const Server = require('../database/ServerSchema');

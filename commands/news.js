@@ -6,7 +6,7 @@ module.exports = {
     name: 'news',
     async execute(message) {
 
-        // Get the xml, we emualte a browser by includig the user-agent header
+        // Get the xml, we emulate a browser by including the user-agent header
         const { data } = await curly.get('https://www.minecraft.net/en-us/feeds/community-content/rss', {
             httpHeader: ['User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'],
         });

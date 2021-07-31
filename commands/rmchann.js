@@ -13,7 +13,7 @@ module.exports = {
         // Get the db entry for id
         const result = await Server.findById(message.guild.id)
 
-        // server didnt define a ip or id of all the channels
+        // server didn't define a ip or id of all the channels
         if (!result.StatusChannId || !result.NumberChannId || !result.CategoryId) {
             message.channel.send('This server doest have the monitoring channels set up. use `mc!setup` to do so.');
             return;
@@ -36,7 +36,7 @@ module.exports = {
             }, {
                 useFindAndModify: false
             })
-            .then(() => message.channel.send('The channels heve been removed!'))
+            .then(() => message.channel.send('The channels have been removed!'))
             .catch((err) => console.error(err))
     }
 }

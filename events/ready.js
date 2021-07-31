@@ -15,6 +15,7 @@ module.exports = {
             await guildscan.execute(client);
         }
 
+        // Call the pinger every 5 minutes
         setInterval(() => {
             pinger.execute(client)
         }, 300000);

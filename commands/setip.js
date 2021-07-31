@@ -15,7 +15,7 @@ module.exports = {
             return;
         }
 
-        // Write changes to databse
+        // Write changes to database
         Server.findByIdAndUpdate({
                 _id: message.guild.id
             }, {

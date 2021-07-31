@@ -43,3 +43,4 @@ Create graphs, and log the status of a server:
 * The bot logs the status of the server every 5 minutes and it keeps 24 hours of logs. 
 * When the bot leaves a server all logs and info connected to that servers guild id will be deleted.
 * This bot is still very new so there are bound to be some bugs. Please report any that you encounter [as a issue on github.](https://github.com/cappig/MC-status-bot/issues)
+* The profile picture for this bot is based on the computer from the [ComputerCraft mod](https://www.computercraft.info/). The original picture can be found [here](https://feed-the-beast.fandom.com/wiki/ComputerCraft?file=Iso_Computer.png). The original image is licensed under the Creative Commons Attribution-Share Alike License, thus the [modified image](https://github.com/cappig/MC-status-bot/blob/main/miscellaneous/icon.png) is licensed under the same [licence](https://creativecommons.org/licenses/by-sa/3.0/).
