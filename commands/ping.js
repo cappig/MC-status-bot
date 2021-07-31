@@ -34,7 +34,10 @@ module.exports = {
                 if (error.code == "ENOTFOUND") offline(`Unable to resolve ${ip}.\nCheck if you entered the correct ip!`, ip);
                 else if (error.code == "ECONNREFUSED") offline(`${ip} refused to connect.\nCheck if you specified the correct port!`, ip);
                 else if (error.message == "Timed out") offline(`${ip} didn't return a ping.\nTimed out.`, ip);
-                else console.log(error);
+                else {
+                    console.log("A error occurred while trying to ping: ", error);
+                    offline(`${ip} refused to connect.`, ip);
+                }
                 return;
             })
 
@@ -52,14 +55,14 @@ module.exports = {
                 .setTitle(`${ip} is online`)
                 .setDescription(result.motd.clear);
 
-            // Add a players coinnected field if available
+            // Add a players connected field if available
             if (result.players.list.length > 0) {
-                embed.addField('Players conncted:', '`' + result.players.list.join(' ') + '`', false)
+                embed.addField('Players connected:', '`' + result.players.list.join(' ') + '`', false)
             }
 
             embed
                 .addFields({
-                    name: 'Playesrs: ',
+                    name: 'Players: ',
                     value: 'Online: ' + '`' + result.players.online + '`' + '\nMax: ' + '`' + result.players.max + '`',
                     inline: true
                 }, {

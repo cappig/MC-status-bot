@@ -33,13 +33,14 @@ module.exports = {
                         };
                     })
                     .catch((error) => {
-                        if (error.code == "ENOTFOUND" || error.code == "ECONNREFUSED" || error.message == "Timed out") {
-                            // server is offline
-                            if (server.Logging == true) {
-                                logger.execute('', server);
-                            }
-                            channupd.execute(client, server, '');
-                        } else console.error(error);
+                        // server is offline
+                        if (server.Logging == true) {
+                            logger.execute('', server);
+                        }
+                        channupd.execute(client, server, '');
+
+                        // Console log other errors
+                        if (!(error.code == "ENOTFOUND" || error.code == "ECONNREFUSED" || error.message == "Timed out")) console.error(error);
                         return;
                     })
             }

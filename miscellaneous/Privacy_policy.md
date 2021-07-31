@@ -1,12 +1,12 @@
 # Privacy policy
 
-*Last updated: 10.7.2021*
+*Last updated: 31.7.2021*
 
 <br>
 
 MCstatus bot (“we”, “our”, "us" or "bot") provides a discord bot service subject to the privacy policy described below (“Privacy Policy”).
 
-The Policy policy governs. By using the bot, you agree to the Policy policy. If you do not agree with the Policy policy, you may not use the Services.
+By using the bot, you agree to the Policy policy. If you do not agree with the Policy policy, you may not use the Services.
 
 This service is completely free to use and is in no way affiliated with Discord or Mojang/Microsoft.
 
@@ -21,11 +21,11 @@ Your privacy is very important to us. It is our policy to respect your privacy.
 
         * Discord identification (“ID”) for any guilds you invite the bot to join.
         * Discord channel IDs for channels set up for the bot to use.
-        * The status and other relevant information of the Minecraft server 
+        * The status and other relevant information of the Minecraft server. 
 
     <br>
 
-    * All personal information stored in our database is linked to a particular Discord guild ID. When the bot leaves the guild, all information related to that guild ID will be permanently deleted. 
+    * All personal information stored in our database is linked to a particular Discord guild ID. When the bot leaves the guild, all information stored under the guild ID will be permanently deleted. 
 
 <br>
 
@@ -40,4 +40,4 @@ Your privacy is very important to us. It is our policy to respect your privacy.
 
 ---
 
-*If you need any more information or help feel free to contact me at `matt@cappig.ga` or DM me on Discord at `Cappig#3296`. Thanks for using the bot!*
+*If you need any more information or help feel free to contact me at `matt@cappig.ga` or preferably DM me on Discord at `Cappig#3296`. Thanks for using the bot!*
