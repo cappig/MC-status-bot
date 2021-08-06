@@ -15,10 +15,11 @@ module.exports = {
         // Array of guild ids that are in the database
         const database = docs.map(docs => docs.id);
 
-        let i = 0;
+        let a = 0;
+        let l = 0;
         for (const guild of guilds) {
             if (!database.includes(guild)) {
-                i++;
+                a++;
 
                 const server = new Server({
                     _id: guild
@@ -28,6 +29,19 @@ module.exports = {
             }
         }
 
-        console.log('\x1b[1m%s\x1b[0m', `Ended guild scan. Added ${i} new guilds to the database`);
+        for (const entry of database) {
+            if (!guilds.includes(entry)) {
+                l ++;
+
+                Server.findOneAndRemove({
+                    _id: entry
+                }, {
+                    useFindAndModify: false
+                })
+                .catch((err) => console.error(err))
+            }
+        }
+
+        console.log('\x1b[1m%s\x1b[0m', `Ended guild scan. Added ${a} new guilds, and removed ${l} old guilds from the database`);
     }
 }
