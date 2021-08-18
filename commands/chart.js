@@ -87,7 +87,7 @@ module.exports = {
                 var type = 'bar',
                     label = 'number of minutes played',
                     line = 1,
-                    embedtitle = `Most active players on ${data.IP}`;
+                    embedtitle = `Most active players on ${data.IP} in the last 24 hours`;
 
                 var embeddescr = ``;
 
@@ -100,7 +100,7 @@ module.exports = {
                 });
 
                 if (playerslist.length == 0) {
-                    message.channel.send(`There were no player names logged. Either there were on players server or your server doesn't provide the list of connected players.`);
+                    message.channel.send(`There were no player names logged. Either there were no players on the server or your server doesn't provide the list of connected players.`);
                     message.channel.stopTyping();
                     return;
                 }

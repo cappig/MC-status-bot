@@ -1,5 +1,9 @@
 # MC status bot :robot: :chart_with_upwards_trend:
 
+[![Discord Bot status](https://top.gg/api/widget/status/816747912888975362.svg)](https://top.gg/bot/816747912888975362)
+
+<br>
+
 Let everyone in your Discord server quickly see the status of a minecraft server:
 
 ![img1](https://i.ibb.co/kQ05Pjx/example1.png)
