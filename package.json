@@ -4,7 +4,10 @@
   "description": "A discord bot that displays if a MC server is online",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "pm2 start index.js -- --guildscan",
+    "stop": "pm2 kill",
+    "dev": "npx nodemon .",
+    "beautify": "fd . -t f -e js -x js-beautify -b collapse,preserve-inline -r {}"
   },
   "repository": {
     "type": "git",

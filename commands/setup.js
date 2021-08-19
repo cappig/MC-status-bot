@@ -10,7 +10,7 @@ module.exports = {
         }
 
         // Check if bot has all the permissions
-        if (!message.guild.me.hasPermission("MANAGE_ROLES") && !message.guild.me.hasPermission("MANAGE_CHANNELS")){
+        if (!message.guild.me.hasPermission("MANAGE_ROLES") && !message.guild.me.hasPermission("MANAGE_CHANNELS")) {
             message.channel.send("I don't have the necessary permissions to perform this action! - `Manage roles` and `Manage channels`");
             return;
         } else if (!message.guild.me.hasPermission("MANAGE_CHANNELS")) {
@@ -19,7 +19,7 @@ module.exports = {
         } else if (!message.guild.me.hasPermission("MANAGE_ROLES")) {
             message.channel.send("I don't have the necessary permissions to perform this action! - `Manage roles`");
             return;
-        } 
+        }
 
         // Get the ip of the server
         const result = await Server.findById(message.guild.id)

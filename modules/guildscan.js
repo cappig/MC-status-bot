@@ -31,14 +31,14 @@ module.exports = {
 
         for (const entry of database) {
             if (!guilds.includes(entry)) {
-                l ++;
+                l++;
 
                 Server.findOneAndRemove({
-                    _id: entry
-                }, {
-                    useFindAndModify: false
-                })
-                .catch((err) => console.error(err))
+                        _id: entry
+                    }, {
+                        useFindAndModify: false
+                    })
+                    .catch((err) => console.error(err))
             }
         }
 
