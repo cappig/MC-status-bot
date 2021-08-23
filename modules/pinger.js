@@ -40,7 +40,7 @@ module.exports = {
                         channupd.execute(client, server, '');
 
                         // Console log other errors
-                        if (!(error.code == "ENOTFOUND" || error.code == "ECONNREFUSED" || error.message == "Timed out")) console.error(error);
+                        if (!(error.code == "ENOTFOUND" || error.code == "ECONNREFUSED" || error.code == "EHOSTUNREACH" || error.message == "Timed out")) console.error(error);
                         return;
                     })
             }

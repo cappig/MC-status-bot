@@ -32,7 +32,8 @@ module.exports = {
             })
             .catch((error) => {
                 if (error.code == "ENOTFOUND") offline(`Unable to resolve ${ip}.\nCheck if you entered the correct ip!`, ip);
-                else if (error.code == "ECONNREFUSED") offline(`${ip} refused to connect.\nCheck if you specified the correct port!`, ip);
+                else if (error.code == "ECONNREFUSED") offline(`Unable to resolve ${ip}.\nCan't find a route to the host!`, ip);
+                else if (error.code == "EHOSTUNREACH") offline(`${ip} refused to connect.\nCheck if you specified the correct port!`, ip);
                 else if (error.message == "Timed out") offline(`${ip} didn't return a ping.\nTimed out.`, ip);
                 else {
                     console.log("A error occurred while trying to ping: ", error);
