@@ -7,9 +7,15 @@ module.exports = {
     async execute(message) {
 
         // Get the xml, we emulate a browser by including the user-agent header
-        const { data } = await curly.get('https://www.minecraft.net/en-us/feeds/community-content/rss', {
-            httpHeader: ['User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'],
-        });
+        try {
+            const { data } = await curly.get('https://www.minecraft.net/en-us/feeds/community-content/rss', {
+                httpHeader: ['User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'],
+            });
+        } catch (err) {
+            console.error(err);
+            message.channel.send('Uh oh, an error occurred while trying to fetch the news!');
+            return;
+        }
 
         const feed = parser.parse(data.toString());
 
