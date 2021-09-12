@@ -34,7 +34,8 @@
     "fast-xml-parser": "^3.19.0",
     "mongoose": "^5.13.8",
     "node-libcurl": "^2.3.3",
-    "pingmc": "^3.1.0"
+    "pingmc": "^3.1.0",
+    "topgg-autoposter": "^2.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"

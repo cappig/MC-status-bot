@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const mongoose = require('mongoose');
+const { AutoPoster } = require('topgg-autoposter');
 require('dotenv').config();
 
 const client = new Discord.Client();
@@ -14,6 +15,13 @@ mongoose.connect(process.env.DBURL, {
     })
     .then((result) => console.log('Connected to database!'))
     .catch((err) => console.error(err));
+
+// Post stats to top.gg
+AutoPoster(process.env.TOPGGAPI, client)
+  .on('posted', () => {
+    console.log('Posted stats to Top.gg!')
+  })
+  .catch((err) => console.error(err));
 
 // Command handling
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
