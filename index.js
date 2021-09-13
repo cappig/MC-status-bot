@@ -21,7 +21,6 @@ AutoPoster(process.env.TOPGGAPI, client)
   .on('posted', () => {
     console.log('Posted stats to Top.gg!')
   })
-  .catch((err) => console.error(err));
 
 // Command handling
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
