@@ -21,9 +21,9 @@ Create graphs, and log the status of a server:
 
 `mc!log [on/off]` Turn logging on or off. 
 
-`mc!setip [ip]` Set the ip that will be monitored.
+`mc!setip [ip]` Set the ip that will be monitored. You can use this command to change the ip at any time.
 
-`mc!setup` Create the two channels that will display the server status.
+`mc!setup [ip]` Create the two channels that will display the server status.
 
 `mc!rmchann` Removes the monitoring channels
 
@@ -43,7 +43,7 @@ Create graphs, and log the status of a server:
 
 ## :information_source: *Notes*
 * Read the privacy policy [here.](https://github.com/cappig/MC-status-bot/blob/main/miscellaneous/Privacy_policy.md)
-* Logging is turned off by default! Turn it on by using the `mc!log on` command.
+* Logging is turned on by default! You can turn it off by using the `mc!log` command.
 * The bot logs the status of the server every 5 minutes and it keeps 24 hours of logs. 
 * When the bot leaves a server all logs and info connected to that servers guild id will be deleted.
 * This bot is still very new so there are bound to be some bugs. Please report any that you encounter [as a issue on github.](https://github.com/cappig/MC-status-bot/issues)

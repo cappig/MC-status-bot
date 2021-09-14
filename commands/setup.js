@@ -1,12 +1,39 @@
 const Server = require('../database/ServerSchema');
+const Log = require('../database/logSchema');
 
 module.exports = {
     name: 'setup',
-    async execute(message) {
+    async execute(message, args) {
         // Check if the person is admin
         if (!message.member.hasPermission("ADMINISTRATOR")) {
             message.channel.send('You have to be a admin to use this command!');
             return;
+        }
+
+        if (args.toString()) {
+            // Write changes to database
+            Server.findByIdAndUpdate({
+                    _id: message.guild.id
+                }, {
+                    "IP": args[0]
+                }, {
+                    useFindAndModify: false
+                })
+                .catch((err) => console.error(err))
+
+            // Remove all logs
+            Log.findByIdAndUpdate({
+                    _id: message.guild.id
+                }, {
+                    $set: {
+                        logs: []
+                    }
+                }, {
+                    useFindAndModify: false
+                })
+                .catch((err) => console.error(err))
+            
+                message.channel.send(`The ip has been set to ${args[0]}!`);
         }
 
         // Check if bot has all the permissions

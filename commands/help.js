@@ -9,7 +9,7 @@ module.exports = {
             '`mc!ping` - ping a minecraft server\n' +
             '`mc!setip` - set an ip that the bot will monitor\n' +
             '`mc!log` - turn logging on or off\n' +
-            '`mc!setup` - set up the channels that will display the status of a selected server\n' +
+            '`mc!setup` *ip* - set up the channels that will display the status of a selected server\n' +
             '`mc!rmchann` - remove the monitoring channels\n' +
             '`mc!news` - see the latest articles from minecraft.net\n' +
             '`mc!chart` *uptime/playersonline/mostactive* - make a chart with the logged info\n' +
