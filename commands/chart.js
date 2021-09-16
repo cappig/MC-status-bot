@@ -14,7 +14,7 @@ module.exports = {
 
         // Check if logs exist
         if (logs == null) {
-            message.channel.send(`This server doesn't have any logs. Make sure that logging is turned on by using the *mc!log on* command.`);
+            message.channel.send("This server doesn't have any logs. Make sure that logging is turned on by using the `mc!log on` command.");
             return;
         }
 
@@ -124,7 +124,7 @@ module.exports = {
                 });
                 break;
             default:
-                message.channel.send(`Please specify what you want to chart! Use *mc!chart uptime*, *mc!chart playersonline* or *mc!chart mostactive*`);
+                message.channel.send("Please specify what you want to chart! Use `mc!chart uptime`, `mc!chart playersonline` or `mc!chart mostactive`");
                 message.channel.stopTyping();
                 return;
         }

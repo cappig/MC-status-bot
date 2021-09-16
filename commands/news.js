@@ -6,6 +6,8 @@ module.exports = {
     name: 'news',
     async execute(message) {
 
+        message.channel.startTyping();
+        
         // Get the xml, we emulate a browser by including the user-agent header
         try {
             const { data } = await curly.get('https://www.minecraft.net/en-us/feeds/community-content/rss', {
@@ -27,10 +29,12 @@ module.exports = {
                 )
                 /* beautify preserve:end */
                 
+            message.channel.stopTyping();
             message.channel.send(embed);
         } catch (err) {
             console.error(err);
             message.channel.send('Uh oh, an error occurred while trying to fetch the news! Try again later!');
+            message.channel.stopTyping();
             return;
         }
     }

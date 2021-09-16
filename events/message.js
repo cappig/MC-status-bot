@@ -12,7 +12,7 @@ module.exports = {
         const command = client.commands.get(commandName)
 
         try {
-            command.execute(message, args);
+            command.execute(message, args, client);
         } catch (error) {
             console.error(error);
             message.reply("Uh, oh! An error occurred while trying to execute that command! (**X  _  X**)")

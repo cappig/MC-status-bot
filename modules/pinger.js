@@ -39,8 +39,10 @@ module.exports = {
                         }
                         channupd.execute(client, server, '');
 
-                        // Console log other errors
-                        if (!(error.code == "ENOTFOUND" || error.code == "ECONNREFUSED" || error.code == "EHOSTUNREACH" || error.message == "Timed out")) console.error(error);
+                        // Console log errors exept the ones that indiacte that a server is offline
+                        if (!(error.code == "ENOTFOUND" || error.code == "ECONNREFUSED" || error.code == "EHOSTUNREACH" || error.code == "ECONNRESET" || error.message == "Timed out")) {
+                            console.error('An error occured in the pinger module:' + error);
+                        }
                         return;
                     })
             }

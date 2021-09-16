@@ -5,14 +5,18 @@ module.exports = {
 
     execute(message) {
 
-        const description = 'This bot is still in early development. Please report any bugs on [Github](https://github.com/cappig/MC-status-bot/issues)\n\n' +
-            '`mc!ping` - ping a minecraft server\n' +
-            '`mc!setip` - set an ip that the bot will monitor\n' +
-            '`mc!log` - turn logging on or off\n' +
-            '`mc!setup` *ip* - set up the channels that will display the status of a selected server\n' +
+        const description = 'Please report any bugs that you encounter on [Github](https://github.com/cappig/MC-status-bot/issues) or use the `mc!bug` command!\n\n' +
+            '**Admin commands:**\n' +
+            '`mc!setip [ip]` - set an ip that the bot will monitor\n' +
+            '`mc!log [on/off]` - turn logging on or off\n' +
+            '`mc!setup [ip]` - set up the channels that will display the status of a selected server\n' +
             '`mc!rmchann` - remove the monitoring channels\n' +
+            '\n**User commands:**\n' +
+            '`mc!ip` - return the default ip of the server\n' +
+            '`mc!ping [ip]` - ping a minecraft server\n' +
             '`mc!news` - see the latest articles from minecraft.net\n' +
-            '`mc!chart` *uptime/playersonline/mostactive* - make a chart with the logged info\n' +
+            '`mc!chart [uptime/playersonline/mostactive]` - make a chart with the logged info\n' +
+            '`mc!bug [bug]` - Report a bug in the bot\n' +
             '\n[Invite to a server](https://discord.com/oauth2/authorize?client_id=816747912888975362&scope=bot&permissions=268749904) | [Privacy policy](https://github.com/cappig/MC-status-bot/blob/main/miscellaneous/Privacy_policy.md) | [Github](https://github.com/cappig/MC-status-bot)'
 
         const embed = new Discord.MessageEmbed()
