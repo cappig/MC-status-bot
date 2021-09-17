@@ -1,12 +1,13 @@
 const Server = require('../database/ServerSchema');
 const Log = require('../database/logSchema');
+const { Permissions } = require('discord.js');
 
 module.exports = {
     name: 'setip',
 
     execute(message, args) {
         // Check if the person is admin
-        if (!message.member.hasPermission("ADMINISTRATOR")) {
+        if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
             message.channel.send('You have to be a admin to use this command!');
             return;
         }

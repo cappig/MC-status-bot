@@ -2,6 +2,7 @@ const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
 const Discord = require('discord.js');
 const Log = require('../database/logSchema');
 const Server = require('../database/ServerSchema');
+//require('chartjs-adapter-moment');
 
 module.exports = {
     name: 'chart',
@@ -18,7 +19,7 @@ module.exports = {
             return;
         }
 
-        message.channel.startTyping();
+        message.channel.sendTyping();
 
         // Get the ip. data.IP holds the ip
         const data = await Server.findById({
@@ -74,7 +75,6 @@ module.exports = {
                         down++
                         ylbl.push(0);
                     }
-
                     xlbl.push(log.timestamp);
                 })
                 var embeddescr = `${data.IP} was up for ${up * 5} minutes and down for ${down * 5} minutes. This means that ${data.IP} has a uptime percentage of ${((1 - down/up)*100).toFixed(2)}%`
@@ -101,7 +101,6 @@ module.exports = {
 
                 if (playerslist.length == 0) {
                     message.channel.send(`There were no player names logged. Either there were no players on the server or your server doesn't provide the list of connected players.`);
-                    message.channel.stopTyping();
                     return;
                 }
 
@@ -125,7 +124,6 @@ module.exports = {
                 break;
             default:
                 message.channel.send("Please specify what you want to chart! Use `mc!chart uptime`, `mc!chart playersonline` or `mc!chart mostactive`");
-                message.channel.stopTyping();
                 return;
         }
 
@@ -218,11 +216,9 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
                 .setColor('#23272A')
                 .setTitle(embedtitle)
-                .attachFiles(attachment)
                 .setDescription(embeddescr)
                 .setImage("attachment://chart.png")
-            message.channel.send(embed);
-            message.channel.stopTyping();
+            message.channel.send({ embeds: [embed], files: [attachment] });
         })();
     }
 }

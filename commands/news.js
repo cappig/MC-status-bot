@@ -6,7 +6,7 @@ module.exports = {
     name: 'news',
     async execute(message) {
 
-        message.channel.startTyping();
+        message.channel.sendTyping()
         
         // Get the xml, we emulate a browser by including the user-agent header
         try {
@@ -29,12 +29,10 @@ module.exports = {
                 )
                 /* beautify preserve:end */
                 
-            message.channel.stopTyping();
-            message.channel.send(embed);
+            message.channel.send({ embeds: [embed] });
         } catch (err) {
             console.error(err);
             message.channel.send('Uh oh, an error occurred while trying to fetch the news! Try again later!');
-            message.channel.stopTyping();
             return;
         }
     }

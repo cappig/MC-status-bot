@@ -22,7 +22,7 @@ module.exports = {
             ip = args[0].split(':')[0].toLowerCase();
         }
 
-        message.channel.startTyping();
+        message.channel.sendTyping();
 
         new PingMC(ip)
             .ping()
@@ -72,11 +72,10 @@ module.exports = {
                     value: '`' + result.version.name + '`',
                     inline: true
                 })
-                .attachFiles(attachment)
                 .setThumbnail("attachment://icon.png");
 
-            message.channel.send(embed);
-            message.channel.stopTyping();
+            message.channel.send({ embeds: [embed], files: [attachment] });
+            
             return;
         }
 
@@ -87,9 +86,7 @@ module.exports = {
                 .setTitle(`${ip} is offline`)
                 .setDescription(errortxt)
                 .setThumbnail("https://i.ibb.co/YkRLWG8/down.png")
-            message.channel.send(embed);
-
-            message.channel.stopTyping();
+            message.channel.send({ embeds: [embed] });
             return;
         }
     }

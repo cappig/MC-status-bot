@@ -1,11 +1,12 @@
-const Discord = require('discord.js');
+const { Client, Intents, Collection } = require('discord.js');
 const fs = require('fs');
 const mongoose = require('mongoose');
 const { AutoPoster } = require('topgg-autoposter');
 require('dotenv').config();
 
-const client = new Discord.Client();
-client.commands = new Discord.Collection();
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+//const client = new Discord.Client({ intents: ["MESSAGE_CREATE", "TYPING_START", "CHANNEL_CREATE", "CHANNEL_UPDATE", "CHANNEL_DELETE"] });
+client.commands = new Collection();
 client.prefix = 'mc!';
 
 // Connect to database
