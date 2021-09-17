@@ -28,9 +28,10 @@
   "dependencies": {
     "chart.js": "^2.9.4",
     "chartjs-node-canvas": "^3.2.0",
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.1.0",
     "dotenv": "^10.0.0",
     "fast-xml-parser": "^3.20.0",
+    "moment": "^2.29.1",
     "mongoose": "^6.0.6",
     "node-libcurl": "^2.3.3",
     "pingmc": "^3.1.0",

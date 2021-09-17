@@ -1,11 +1,12 @@
 const Server = require('../database/ServerSchema');
 const Log = require('../database/logSchema');
+const { Permissions } = require('discord.js');
 
 module.exports = {
     name: 'setup',
     async execute(message, args) {
         // Check if the person is admin
-        if (!message.member.hasPermission("ADMINISTRATOR")) {
+        if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
             message.channel.send('You have to be a admin to use this command!');
             return;
         }
@@ -37,13 +38,13 @@ module.exports = {
         }
 
         // Check if bot has all the permissions
-        if (!message.guild.me.hasPermission("MANAGE_ROLES") && !message.guild.me.hasPermission("MANAGE_CHANNELS")) {
+        if (!message.guild.me.permissions.has(Permissions.FLAGS.MANAGE_ROLES) && !message.guild.me.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) {
             message.channel.send("I don't have the necessary permissions to perform this action! - `Manage roles` and `Manage channels`");
             return;
-        } else if (!message.guild.me.hasPermission("MANAGE_CHANNELS")) {
+        } else if (!message.guild.me.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) {
             message.channel.send("I don't have the necessary permissions to perform this action! - `Manage channels`");
             return;
-        } else if (!message.guild.me.hasPermission("MANAGE_ROLES")) {
+        } else if (!message.guild.me.permissions.has(Permissions.FLAGS.MANAGE_ROLES)) {
             message.channel.send("I don't have the necessary permissions to perform this action! - `Manage roles`");
             return;
         }
@@ -61,13 +62,13 @@ module.exports = {
         // Create category
         let Category;
         await message.guild.channels.create(`${result.IP}'s status`, {
-            type: 'category',
+            type: 'GUILD_CATEGORY',
             permissionOverwrites: [{
                 id: message.guild.me.roles.highest,
                 allow: ['VIEW_CHANNEL', 'MANAGE_CHANNELS', 'CONNECT']
             }]
         }).then((channel) => {
-            channel.updateOverwrite(channel.guild.roles.everyone, {
+            channel.permissionOverwrites.edit(channel.guild.roles.everyone, {
                 CONNECT: false
             });
             Category = channel;
@@ -76,14 +77,14 @@ module.exports = {
         // Crate channels and add to category
         let Status;
         await message.guild.channels.create('Updating status. . .', {
-            type: 'voice'
+            type: 'GUILD_VOICE'
         }).then((channel) => {
             channel.setParent(Category.id);
             Status = channel;
         })
         let Number;
         await message.guild.channels.create('Updating players . . .', {
-            type: 'voice'
+            type: 'GUILD_VOICE'
         }).then((channel) => {
             channel.setParent(Category.id);
             Number = channel;
@@ -99,7 +100,7 @@ module.exports = {
             }, {
                 useFindAndModify: false
             })
-            .then(() => message.channel.send('The channels have been created successfully!'))
+            .then(() => message.channel.send('The channels have been created successfully! Please allow up to five minutes for the channels to update.'))
             .catch((err) => console.error(err))
     }
 }

@@ -24,6 +24,6 @@ module.exports = {
             .setTitle('<a:cube:853751408389914644> About the bot')
             .setDescription(description)
             .setFooter('Made by Cappig#3296 | Check out by blog - cappig.ga')
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
     }
 }

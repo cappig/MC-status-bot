@@ -1,12 +1,13 @@
 const Server = require('../database/ServerSchema');
 const Log = require('../database/logSchema');
+const { Permissions } = require('discord.js');
 
 module.exports = {
     name: 'log',
 
     execute(message, args) {
         // Check if the person is admin
-        if (!message.member.hasPermission("ADMINISTRATOR")) {
+        if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
             message.channel.send('You have to be a admin to use this command!');
             return;
         }
@@ -42,7 +43,7 @@ module.exports = {
                         console.error(err);
                     }
                 })
-                .then(message.channel.send(`Logging has been turned ${args[0]}`))
+                .then(message.channel.send(`Logging has been turned on`))
         } else {
             Log.findOneAndRemove({
                     _id: message.guild.id
@@ -50,6 +51,7 @@ module.exports = {
                     useFindAndModify: false
                 })
                 .catch((err) => console.error(err))
+                .then(message.channel.send(`Logging has been turned off`))
         }
     }
 }
