@@ -5,7 +5,6 @@ const { AutoPoster } = require('topgg-autoposter');
 require('dotenv').config();
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-//const client = new Discord.Client({ intents: ["MESSAGE_CREATE", "TYPING_START", "CHANNEL_CREATE", "CHANNEL_UPDATE", "CHANNEL_DELETE"] });
 client.commands = new Collection();
 client.prefix = 'mc!';
 
@@ -14,7 +13,7 @@ mongoose.connect(process.env.DBURL, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
-    .then((result) => console.log('Connected to database!'))
+    .then(() => console.log('Connected to database!'))
     .catch((err) => console.error(err));
 
 // Post stats to top.gg

@@ -11,12 +11,12 @@ module.exports = {
         } else {
             const embed = new Discord.MessageEmbed()
                 .setTitle('New Bug report!')
-                .addField('Authot', message.author, true)
+                .addField('Authot', message.author.toString(), true)
                 .addField('Guild', message.guild.name, true)
                 .addField('Report', bug)
                 .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
                 .setTimestamp()
-            owner.send(embed);
+            owner.send({ embeds: [embed]});
 
             message.channel.send('Thank You for reporting a bug and helping to improve this bot! Your feedback is greatly appreciated!');
         };

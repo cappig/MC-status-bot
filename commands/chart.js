@@ -187,7 +187,7 @@ module.exports = {
                                 fontSize: 15,
                                 stepSize: 1,
                                 max,
-                                callback: function(value, index, values) {
+                                callback: function(value) {
                                     if (args == 'uptime') {
                                         if (value == 1) return 'online';
                                         if (value == 0) return 'offline';
@@ -197,6 +197,9 @@ module.exports = {
                         }],
                         xAxes: [{
                             type: xtype,
+                            time: {
+                                unit: 'hour'
+                            },
                             ticks: {
                                 fontColor: "rgb(247, 247, 247)",
                                 fontSize: 13,
