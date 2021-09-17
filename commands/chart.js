@@ -150,11 +150,9 @@ module.exports = {
         var height = 400;
 
         // Chart.js
-        const chartCallback = (ChartJS) => ChartJS.defaults.global.elements.rectangle.borderWidth = 2;
         const chartJSNodeCanvas = new ChartJSNodeCanvas({
             width,
-            height,
-            chartCallback
+            height
         });
         (async () => {
             const configuration = {
