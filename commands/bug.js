@@ -11,8 +11,8 @@ module.exports = {
         } else {
             const embed = new Discord.MessageEmbed()
                 .setTitle('New Bug report!')
-                .addField('Authot', message.author.toString(), true)
-                .addField('Guild', message.guild.name, true)
+                .addField('Author', message.author.toString(), true)
+                .addField('Guild', `name: ${message.guild.name}\nid: ${message.guild.id}`, true)
                 .addField('Report', bug)
                 .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
                 .setTimestamp()

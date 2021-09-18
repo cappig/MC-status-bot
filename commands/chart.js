@@ -7,6 +7,8 @@ const Server = require('../database/ServerSchema');
 module.exports = {
     name: 'chart',
     async execute(message, args) {
+        message.channel.sendTyping();
+
         // Get the logs
         const logs = await Log.findById({
                 _id: message.guild.id
@@ -18,8 +20,6 @@ module.exports = {
             message.channel.send("This server doesn't have any logs. Make sure that logging is turned on by using the `mc!log on` command.");
             return;
         }
-
-        message.channel.sendTyping();
 
         // Get the ip. data.IP holds the ip
         const data = await Server.findById({
@@ -77,7 +77,7 @@ module.exports = {
                     }
                     xlbl.push(log.timestamp);
                 })
-                var embeddescr = `${data.IP} was up for ${up * 5} minutes and down for ${down * 5} minutes. This means that ${data.IP} has a uptime percentage of ${((1 - down/up)*100).toFixed(2)}%`
+                var embeddescr = `${data.IP} was up for ${up * 5} minutes and down for ${down * 5} minutes. This means that ${data.IP} has a uptime percentage of ${(up / (up+down)*100).toFixed(2)}%`
                 break;
             case (args == 'mostactive'):
                 var numberofocc = {},
@@ -203,7 +203,7 @@ module.exports = {
                             ticks: {
                                 fontColor: "rgb(247, 247, 247)",
                                 fontSize: 13,
-                                stepSize: 1,
+                                stepSize: 1
                             }
                         }]
                     }

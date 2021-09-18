@@ -23,9 +23,9 @@ module.exports = {
                 /* beautify preserve:start */
                 .addFields(
                     { name: '1. ' + feed.rss.channel.item[0].title, value: feed.rss.channel.item[0].description + '\n → *' + feed.rss.channel.item[0].pubDate.split(" ", 4).join(" ") + '*'},
-                    { name: '2. ' + feed.rss.channel.item[1].title, value: feed.rss.channel.item[1].description + '\n‏‏‎ → *' + feed.rss.channel.item[1].pubDate.split(" ", 4).join(" ") + '*'},
-                    { name: '3. ' + feed.rss.channel.item[2].title, value: feed.rss.channel.item[2].description + '\n‏‏‎ → ‎*' + feed.rss.channel.item[2].pubDate.split(" ", 4).join(" ") + '*'},
-                    { name: '4. ' + feed.rss.channel.item[3].title, value: feed.rss.channel.item[3].description + '\n‏‏‎ → *' + feed.rss.channel.item[3].pubDate.split(" ", 4).join(" ") + '*'},
+                    { name: '2. ' + feed.rss.channel.item[1].title, value: feed.rss.channel.item[1].description + '\n → *' + feed.rss.channel.item[1].pubDate.split(" ", 4).join(" ") + '*'},
+                    { name: '3. ' + feed.rss.channel.item[2].title, value: feed.rss.channel.item[2].description + '\n → ‎*' + feed.rss.channel.item[2].pubDate.split(" ", 4).join(" ") + '*'},
+                    { name: '4. ' + feed.rss.channel.item[3].title, value: feed.rss.channel.item[3].description + '\n → *' + feed.rss.channel.item[3].pubDate.split(" ", 4).join(" ") + '*'},
                 )
                 /* beautify preserve:end */
                 
