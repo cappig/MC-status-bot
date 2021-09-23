@@ -17,8 +17,14 @@ module.exports = {
                 new PingMC(server.IP)
                     .ping()
                     .then((result) => {
-
-                        if (result) {
+                        // Aternos servers stay online and display Offline in their MOTD when they are actually offline
+                        if (ip.includes('aternos.me') || result.motd.clear.includes('● Offline')) {
+                            // server is offline
+                            if (server.Logging == true) {
+                                logger.execute('', server);
+                            }
+                        }
+                        else if (result) {
                             // server is online
                             if (server.Logging == true) {
                                 logger.execute(result, server);
