@@ -18,11 +18,12 @@ module.exports = {
                     .ping()
                     .then((result) => {
                         // Aternos servers stay online and display Offline in their MOTD when they are actually offline
-                        if (ip.includes('aternos.me') || result.motd.clear.includes('● Offline')) {
+                        if (server.IP.includes('aternos.me') && result.version.name == '● Offline') {
                             // server is offline
                             if (server.Logging == true) {
                                 logger.execute('', server);
                             }
+                            channupd.execute(client, server, '');
                         }
                         else if (result) {
                             // server is online
