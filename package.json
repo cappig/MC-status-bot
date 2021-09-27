@@ -30,14 +30,14 @@
     "chartjs-node-canvas": "^3.2.0",
     "discord.js": "^13.1.0",
     "dotenv": "^10.0.0",
-    "fast-xml-parser": "^3.20.0",
+    "fast-xml-parser": "^3.20.3",
     "moment": "^2.29.1",
-    "mongoose": "^6.0.6",
+    "mongoose": "^6.0.8",
     "node-libcurl": "^2.3.3",
     "pingmc": "^3.1.0",
     "topgg-autoposter": "^2.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.13"
   }
 }

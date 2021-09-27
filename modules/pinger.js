@@ -37,7 +37,7 @@ module.exports = {
                                 logger.execute('', server);
                             }
                             channupd.execute(client, server, '');
-                        };
+                        }
                     })
                     .catch((error) => {
                         // server is offline

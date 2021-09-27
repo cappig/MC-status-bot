@@ -4,7 +4,6 @@
  * while it was offline.
  */
 const Server = require('../database/ServerSchema');
-const Log = require('../database/logSchema');
 
 module.exports = {
     async execute(client) {

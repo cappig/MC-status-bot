@@ -19,6 +19,6 @@ module.exports = {
             owner.send({ embeds: [embed]});
 
             message.channel.send('Thank You for reporting a bug and helping to improve this bot! Your feedback is greatly appreciated!');
-        };
+        }
     }
 }

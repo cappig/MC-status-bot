@@ -78,6 +78,6 @@ module.exports = {
             client.channels.cache.get(server.NumberChannId).permissionOverwrites.edit(client.channels.cache.get(server.NumberChannId).guild.roles.everyone, {
                 VIEW_CHANNEL: false
             });
-        };
+        }
     }
 }
