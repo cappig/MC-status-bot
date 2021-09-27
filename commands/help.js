@@ -21,7 +21,7 @@ module.exports = {
 
         const embed = new Discord.MessageEmbed()
             .setColor('#008000')
-            .setTitle('<a:cube:853751408389914644> About the bot')
+            .setTitle('<a:cube:892129423141269535> About the bot')
             .setDescription(description)
             .setFooter('Made by Cappig#3296 | Check out by blog - cappig.ga')
         message.channel.send({ embeds: [embed] });
