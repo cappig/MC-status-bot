@@ -46,6 +46,7 @@ Create graphs, and log the status of a server:
 `mc!bug` Report a bug in the bot
 
 ## :information_source: *Notes*
+* Have questions? Join the [Support server](https://discord.gg/YzX5KdF4kq) and ask.
 * Read the privacy policy [here.](https://github.com/cappig/MC-status-bot/blob/main/miscellaneous/Privacy_policy.md)
 * Logging is turned on by default! You can turn it off by using the `mc!log` command.
 * The bot logs the status of the server every 5 minutes and it keeps 24 hours of logs. 

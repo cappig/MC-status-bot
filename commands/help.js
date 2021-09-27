@@ -17,7 +17,7 @@ module.exports = {
             '`mc!news` - see the latest articles from minecraft.net\n' +
             '`mc!chart [uptime/playersonline/mostactive]` - make a chart with the logged info\n' +
             '`mc!bug [bug]` - Report a bug in the bot\n' +
-            '\n[Invite to a server](https://discord.com/oauth2/authorize?client_id=816747912888975362&scope=bot&permissions=268749904) | [Privacy policy](https://github.com/cappig/MC-status-bot/blob/main/miscellaneous/Privacy_policy.md) | [Github](https://github.com/cappig/MC-status-bot)'
+            '\n[Invite to a server](https://discord.com/oauth2/authorize?client_id=816747912888975362&scope=bot&permissions=268749904) | [Privacy policy](https://github.com/cappig/MC-status-bot/blob/main/miscellaneous/Privacy_policy.md) | [Github](https://github.com/cappig/MC-status-bot) | [Support server](https://discord.gg/YzX5KdF4kq)'
 
         const embed = new Discord.MessageEmbed()
             .setColor('#008000')
