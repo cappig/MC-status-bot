@@ -4,7 +4,7 @@
   "description": "A discord bot that displays if a MC server is online",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start index.js",
+    "start": "pm2 start index.js -- --guildscan",
     "stop": "pm2 kill",
     "restart": "npm run stop && npm run start",
     "dev": "npx nodemon .",
