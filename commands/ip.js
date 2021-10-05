@@ -1,14 +1,12 @@
-const Server = require('../database/ServerSchema');
+const { lookup } = require('../modules/cache.js');
 
 module.exports = {
     name: 'ip',
 
     async execute(message) {
         // Fetch data from db
-        const data = await Server.findById({
-                _id: message.guild.id
-            })
-            .catch((err) => console.error(err));
+        // By using redis caching this function's execution time dropped from a average of 29ms to less then one
+        const data = await lookup('Server', message.guild.id) 
 
         if (!data.IP) {
             message.channel.send('This server doest have a default ip set! A admin can do that by using the `mc!setip` command.');

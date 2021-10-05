@@ -14,45 +14,37 @@ module.exports = {
                         StatusChannId: ""
                     }
                 }, {
-                    useFindAndModify: false
-                },
-                function (err) {
-                    if (err){
-                        console.log(err)
-                    }
-                });
+                    useFindAndModify: false,
+                    new: true
+                }).cache()
+                .catch((err) => console.error(err));
             return;
         } if (client.channels.cache.get(server.NumberChannId) === undefined) { 
             Server.findByIdAndUpdate({
                 _id: server._id
             }, {
-                    $unset: {
-                        NumberChannId: ""
-                    }
-                }, {
-                    useFindAndModify: false
-                },
-                function (err) {
-                    if (err){
-                        console.log(err)
-                    }
-                });
+                $unset: {
+                    NumberChannId: ""
+                }
+            }, {
+                useFindAndModify: false,
+                new: true
+            }).cache()
+            .catch((err) => console.error(err));
             return;
         } if (client.channels.cache.get(server.CategoryId) === undefined) {
             Server.findByIdAndUpdate({
                 _id: server._id
             }, {
-                    $unset: {
-                        CategoryId: ""
-                    }
-                }, {
-                    useFindAndModify: false
-                },
-                function (err) {
-                    if (err){
-                        console.log(err)
-                    }
-                });
+                $unset: {
+                    CategoryId: ""
+                }
+            }, {
+                useFindAndModify: false,
+                new: true
+            }).cache()
+            .catch((err) => console.error(err));
+
             return;
         }
 

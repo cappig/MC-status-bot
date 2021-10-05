@@ -1,8 +1,10 @@
 const Log = require('../database/logSchema');
+require('../modules/cache.js');
 
 module.exports = {
     async execute(result, server) {
         // Check if server has more than 288 logs
+        // TODO: Make this get its info from cache
         const cursor = await Log.aggregate([{
             $match: {
                 _id: server.id
@@ -17,15 +19,16 @@ module.exports = {
         cursor.forEach(size => {
             if (size.logs == 289) {
                 Log.findByIdAndUpdate({
-                        _id: server.id
-                    }, {
-                        $pop: {
-                            "logs": -1
-                        }
-                    }, {
-                        useFindAndModify: false
-                    })
-                    .catch((err) => console.error(err))
+                    _id: server.id
+                }, {
+                    $pop: {
+                        "logs": -1
+                    }
+                }, {
+                    useFindAndModify: false,
+                    new: true
+                }).cache()
+                .catch((err) => console.error(err))
             }
         });
 
@@ -63,8 +66,9 @@ module.exports = {
         Log.findByIdAndUpdate({
                 _id: server.id
             }, dbdata, {
-                useFindAndModify: false
-            })
+                useFindAndModify: false,
+                new: true
+            }).cache()
             .catch((err) => console.error(err))
     }
 }

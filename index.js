@@ -4,23 +4,65 @@ const mongoose = require('mongoose');
 const { AutoPoster } = require('topgg-autoposter');
 require('dotenv').config();
 
+const Log = require('./database/logSchema');
+const Server = require('./database/ServerSchema');
+const redis = require("redis");
+
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 client.commands = new Collection();
 client.prefix = 'mc!';
+
+console.log('\x1b[32m\x1b[1m%s\x1b[0m', 'Starting the bot!');
 
 // Connect to database
 mongoose.connect(process.env.DBURL, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
-    .then(() => console.log('Connected to database!'))
+    .then(() => console.log('\x1b[2m%s\x1b[0m', '   ⤷ Connected to database!'))
     .catch((err) => console.error(err));
 
+// Flush redis
+const redisclient = redis.createClient();
+redisclient.flushall('SYNC', function (err, succeeded) {
+
+    console.log('\x1b[2m%s\x1b[0m', `   ⤷ Flushing Redis -  ${err ? err : succeeded}`);
+
+    // Cache the entire mongo database to redis. 
+    // Cache it only after redis gets flushed
+    (async () => {
+        console.log('\x1b[2m%s\x1b[0m', '   ⤷ Caching the database: ')
+
+        await Log.find()
+            .then((result) => {
+                result.forEach(log => redisclient.hset('Log', log._id, JSON.stringify(log.logs)))
+                console.log('\x1b[2m%s\x1b[0m', '      ⤷ Cached logs!')
+            })
+            .catch((err) => console.error(err));
+
+        await Server.find()
+            .then((result) => {
+                result.forEach(server => {
+                    var value = { ...server.toObject()};  // Copy server object
+                    value._id = undefined; // Remove the _id from the value
+                    redisclient.hset('Server', server._id, JSON.stringify(value))
+                })
+                console.log('\x1b[2m%s\x1b[0m', '      ⤷ Cached servers!')
+            })
+            .catch((err) => console.error(err));
+    })();
+});
+
+// Make the redis client global
+global.redisclient = redisclient;
+
 // Post stats to top.gg
-AutoPoster(process.env.TOPGGAPI, client)
-  .on('posted', () => {
-    console.log('Posted stats to Top.gg!')
-  })
+if (process.env.TOPGGAPI) {
+    AutoPoster(process.env.TOPGGAPI, client)
+        .on('posted', () => {
+            console.log('\x1b[2m%s\x1b[0m', '   ⤷ Posted stats to Top.gg!')
+        })
+} else console.log('\x1b[2m%s\x1b[0m', "   ⤷ No topgg token was provided - stats won't be posted to top.gg!")
 
 // Command handling
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));

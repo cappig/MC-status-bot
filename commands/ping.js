@@ -1,16 +1,13 @@
 const { PingMC } = require("pingmc");
 const Discord = require('discord.js');
-const Server = require('../database/ServerSchema');
+const { lookup } = require('../modules/cache.js');
 
 module.exports = {
     name: 'ping',
     async execute(message, args) {
         var ip = "";
         if (!args[0]) {
-            const data = await Server.findById({
-                    _id: message.guild.id
-                })
-                .catch((err) => console.error(err));
+            const data = await lookup('Server', message.guild.id);
 
             if (!data.IP) {
                 message.channel.send('Please specify a IP adress to ping!');

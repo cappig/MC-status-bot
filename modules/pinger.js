@@ -5,6 +5,7 @@ const Server = require('../database/ServerSchema');
 
 module.exports = {
     async execute(client) {
+        // TODO: Make this get its info from cache
         Server.find({}, (err, servers) => {
             if (err) {
                 console.error(err);

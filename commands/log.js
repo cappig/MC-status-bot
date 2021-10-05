@@ -1,6 +1,8 @@
 const Server = require('../database/ServerSchema');
 const Log = require('../database/logSchema');
 const { Permissions } = require('discord.js');
+require('../modules/cache.js');
+
 
 module.exports = {
     name: 'log',
@@ -26,17 +28,21 @@ module.exports = {
             }, {
                 "Logging": logging
             }, {
-                useFindAndModify: false
-            })
+                useFindAndModify: false,
+                new: true
+            }).cache()
             .catch((err) => console.error(err))
 
         if (logging == true) {
             // Create a log document
-            const log = new Log({
-                _id: message.guild.id,
-                logs: []
-            });
-            log.save()
+            Server.findByIdAndUpdate({
+                _id: message.guild.id
+            }, {
+                "logs": []
+            }, {
+                useFindAndModify: false,
+                new: true
+            }).cache()
                 .catch((err) => {
                     // This code means that the document already exists. We can just ignore this since no new document is created
                     if (!err.code == 11000) {
@@ -48,8 +54,9 @@ module.exports = {
             Log.findOneAndRemove({
                     _id: message.guild.id
                 }, {
-                    useFindAndModify: false
-                })
+                    useFindAndModify: false,
+                    new: true
+                }).cache()
                 .catch((err) => console.error(err))
                 .then(message.channel.send(`Logging has been turned off`))
         }

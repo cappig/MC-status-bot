@@ -1,5 +1,6 @@
 const Server = require('../database/ServerSchema');
 const { Permissions } = require('discord.js');
+const { lookup } = require('../modules/cache.js');
 
 module.exports = {
     name: 'rmchann',
@@ -11,8 +12,8 @@ module.exports = {
             return;
         }
 
-        // Get the db entry for id
-        const result = await Server.findById(message.guild.id)
+        // Get the db entry for 
+        const result = await lookup('Server', message.guild.id) 
 
         // server didn't define a ip or id of all the channels
         if (!result.StatusChannId || !result.NumberChannId || !result.CategoryId) {
@@ -35,8 +36,9 @@ module.exports = {
                     CategoryId: ""
                 }
             }, {
-                useFindAndModify: false
-            })
+                useFindAndModify: false,
+                new: true
+            }).cache()
             .then(() => message.channel.send('The channels have been removed!'))
             .catch((err) => console.error(err))
     }
