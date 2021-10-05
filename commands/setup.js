@@ -1,10 +1,11 @@
 const Server = require('../database/ServerSchema');
 const Log = require('../database/logSchema');
 const { Permissions } = require('discord.js');
+const { PingMC } = require("pingmc");
 
 module.exports = {
     name: 'setup',
-    async execute(message, args) {
+    async execute(message, args, client) {
         // Check if the person is admin
         if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
             message.channel.send('You have to be a admin to use this command!');
@@ -53,6 +54,18 @@ module.exports = {
         const result = await Server.findById(message.guild.id)
             .catch((err) => console.error(err));
 
+        // Check if monitoring channels already exist. if they do remove them
+        if (result.StatusChannId && result.NumberChannId && result.CategoryId) {
+            // Remove the channels
+            try {
+                await message.guild.channels.cache.get(result.StatusChannId).delete();
+                await message.guild.channels.cache.get(result.NumberChannId).delete();
+                await message.guild.channels.cache.get(result.CategoryId).delete();
+            } catch (err) {
+                if (!err == "TypeError: Cannot read properties of undefined (reading 'delete')") console.error(err);
+            }
+        }
+
         // check if server has a defined ip
         if (!result.IP) {
             message.channel.send('Please use`mc!setip` to set a ip to monitor!');
@@ -78,15 +91,15 @@ module.exports = {
         let Status;
         await message.guild.channels.create('Updating status. . .', {
             type: 'GUILD_VOICE'
-        }).then((channel) => {
-            channel.setParent(Category.id);
+        }).then(async function(channel) {
+            await channel.setParent(Category.id);
             Status = channel;
         })
         let Number;
         await message.guild.channels.create('Updating players . . .', {
             type: 'GUILD_VOICE'
-        }).then((channel) => {
-            channel.setParent(Category.id);
+        }).then(async function(channel) {
+            await channel.setParent(Category.id);
             Number = channel;
         })
 
@@ -102,5 +115,47 @@ module.exports = {
             })
             .then(() => message.channel.send('The channels have been created successfully! Please allow up to five minutes for the channels to update.'))
             .catch((err) => console.error(err))
+
+        // Fetch server status
+
+        new PingMC(result.IP)
+            .ping()
+            .then((pingresult) => {
+                // Aternos servers stay online and display Offline in their MOTD when they are actually offline
+                if ((result.IP.includes('aternos.me') && pingresult.version.name == '● Offline') || !pingresult) {
+                    // server is offline
+                    servoffline();
+                }
+                else {
+                    // server is online
+                    servonline(pingresult);
+                }
+            })
+            .catch((error) => {
+                // Console log errors exept the ones that indiacte that a server is offline
+                if (!(error.code == "ENOTFOUND" || error.code == "ECONNREFUSED" || error.code == "EHOSTUNREACH" || error.code == "ECONNRESET" || error.message == "Timed out")) {
+                    console.error('An error occurred in the pinger module:' + error);
+                }
+                // server is offline
+                servoffline();
+                return;
+            })
+
+        async function servonline(pingresult) {
+            // server is online
+            await client.channels.cache.get(Status.id).setName('🟢 ONLINE');
+            const chann = client.channels.cache.get(Number.id);
+            await chann.permissionOverwrites.edit(chann.guild.roles.everyone, {
+                VIEW_CHANNEL: true
+            });
+            await chann.setName(`👥 Players online: ${pingresult.players.online}`)
+        }
+        function servoffline() {
+            client.channels.cache.get(Status.id).setName('🔴 OFFLINE');
+            const chann = client.channels.cache.get(Number.id);
+            chann.permissionOverwrites.edit(chann.guild.roles.everyone, {
+                VIEW_CHANNEL: false
+            });
+        }
     }
 }

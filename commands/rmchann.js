@@ -21,9 +21,13 @@ module.exports = {
         }
 
         // Remove the channels
-        message.guild.channels.cache.get(result.StatusChannId).delete();
-        message.guild.channels.cache.get(result.NumberChannId).delete();
-        message.guild.channels.cache.get(result.CategoryId).delete();
+        try {
+            await message.guild.channels.cache.get(result.StatusChannId).delete();
+            await message.guild.channels.cache.get(result.NumberChannId).delete();
+            await message.guild.channels.cache.get(result.CategoryId).delete();
+        } catch (err) {
+            if (!err == "TypeError: Cannot read properties of undefined (reading 'delete')") console.error(err);
+        }
 
         // Remove from db
         Server.findByIdAndUpdate({
