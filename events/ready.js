@@ -1,6 +1,7 @@
 const pinger = require('../modules/pinger.js')
 var cron = require('node-cron');
 const guildscan = require('../modules/guildscan.js');
+const { AutoPoster } = require('topgg-autoposter');
 
 module.exports = {
     name: 'ready',
@@ -21,7 +22,17 @@ module.exports = {
             })();
         }
 
+        // Post stats to top.gg
+        if (process.env.TOPGGAPI) {
+            AutoPoster(process.env.TOPGGAPI, client)
+                .on('posted', () => {
+                    console.log('\x1b[2m%s\x1b[0m', '   ⤷ Posted stats to Top.gg!')
+                })
+        } else console.log('\x1b[2m%s\x1b[0m', "   ⤷ No topgg token was provided - stats won't be posted to top.gg!")
+
         // Call the pinger every 5 minutes
+        pinger.execute(client);
+
         cron.schedule('*/5 * * * *', () => {
             pinger.execute(client);
         });          

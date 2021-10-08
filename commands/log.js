@@ -35,13 +35,14 @@ module.exports = {
 
         if (logging == true) {
             // Create a log document
-            Server.findByIdAndUpdate({
+            Log.findByIdAndUpdate({
                 _id: message.guild.id
             }, {
                 "logs": []
             }, {
                 useFindAndModify: false,
-                new: true
+                new: true,
+                upsert: true
             }).cache()
                 .catch((err) => {
                     // This code means that the document already exists. We can just ignore this since no new document is created

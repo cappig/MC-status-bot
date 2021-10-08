@@ -1,7 +1,6 @@
 const { Client, Intents, Collection } = require('discord.js');
 const fs = require('fs');
 const mongoose = require('mongoose');
-const { AutoPoster } = require('topgg-autoposter');
 require('dotenv').config();
 
 const Log = require('./database/logSchema');
@@ -24,13 +23,12 @@ mongoose.connect(process.env.DBURL, {
 
 // Flush redis
 const redisclient = redis.createClient();
-redisclient.flushall('SYNC', function (err, succeeded) {
+redisclient.flushall('SYNC', async function (err, succeeded) {
 
     console.log('\x1b[2m%s\x1b[0m', `   ⤷ Flushing Redis -  ${err ? err : succeeded}`);
 
     // Cache the entire mongo database to redis. 
     // Cache it only after redis gets flushed
-    (async () => {
         console.log('\x1b[2m%s\x1b[0m', '   ⤷ Caching the database: ')
 
         await Log.find()
@@ -48,21 +46,15 @@ redisclient.flushall('SYNC', function (err, succeeded) {
                     redisclient.hset('Server', server._id, JSON.stringify(value))
                 })
                 console.log('\x1b[2m%s\x1b[0m', '      ⤷ Cached servers!')
+
+                // Log the client in here to prevent the bot from starting before
+                // the db has been completely cached.
+                client.login(process.env.TOKEN);
             })
             .catch((err) => console.error(err));
-    })();
 });
-
 // Make the redis client global
 global.redisclient = redisclient;
-
-// Post stats to top.gg
-if (process.env.TOPGGAPI) {
-    AutoPoster(process.env.TOPGGAPI, client)
-        .on('posted', () => {
-            console.log('\x1b[2m%s\x1b[0m', '   ⤷ Posted stats to Top.gg!')
-        })
-} else console.log('\x1b[2m%s\x1b[0m', "   ⤷ No topgg token was provided - stats won't be posted to top.gg!")
 
 // Command handling
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -81,5 +73,3 @@ for (const file of eventFiles) {
         client.on(event.name, (...args) => event.execute(...args, client));
     }
 }
-
-client.login(process.env.TOKEN);

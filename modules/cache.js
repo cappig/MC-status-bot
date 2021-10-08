@@ -16,7 +16,7 @@ module.exports = {
   async lookup(collection, key) {
     // collection can be 'Server' or 'Log'
     const cacheValue = await client.hget(collection, key);
-  
+
     if (cacheValue) {
       const doc = JSON.parse(cacheValue);
       return doc
@@ -65,15 +65,21 @@ module.exports = {
     client.hdel(collection, key);
   },
 
-  // Get all vallues and kays from collection
-  /* STILL WORKING ON THIS
+  // Get all values and kays from collection
+  // This returns the same array that mongo does.
   async geetallCache(collection) {
     const all = await client.hgetall(collection);
 
     const map = new Map(Object.entries(all)); // Convert to map
-    // we can use map.get('guildid') to find val
-    return map;
-  }*/
+    const res = []
+    map.forEach(function callbackFn(value, key) { 
+      const json = JSON.parse(value);
+      json._id = key
+
+      res.push(json);
+    })
+    return res;
+  }
 }
 
 // Insert element in redis after ith as already been sent to mongo
