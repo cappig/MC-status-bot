@@ -1,34 +1,25 @@
 const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
 const Discord = require('discord.js');
-const Log = require('../database/logSchema');
-const Server = require('../database/ServerSchema');
-
+const { lookup } = require('../modules/cache.js');
 
 module.exports = {
     name: 'chart',
     async execute(message, args) {
-
         if (!args.toString()) {
             message.channel.send("Please specify what you want to chart! Use `mc!chart uptime`, `mc!chart playersonline` or `mc!chart mostactive`");
             return;
         }
 
-        message.channel.sendTyping();
+        //message.channel.sendTyping();
 
         // Get the logs
-        const logs = await Log.findById({
-                _id: message.guild.id
-            })
-            .catch((err) => console.error(err));
+        const logs = await lookup('Log', message.guild.id) 
 
         // Get the ip. data.IP holds the ip
-        const data = await Server.findById({
-                _id: message.guild.id
-            })
-            .catch((err) => console.error(err));
+        const data = await lookup('Server', message.guild.id) 
 
         // Check if logs exist
-        if (logs == null || !data.IP) {
+        if (logs.length == 0 || logs == null || !data.IP) {
             message.channel.send("This server doesn't have any logs. Make sure that logging is turned on by using the `mc!log on` command.");
             return;
         }
@@ -37,7 +28,7 @@ module.exports = {
 
         if (args == 'playersonline') {
             // Check if logs are empty
-            if (logs.logs.length == 0) {
+            if (logs.length == 0) {
                 message.channel.send('The logs are empty right now, please wait for them to update!');
                 return;
             }
@@ -49,7 +40,7 @@ module.exports = {
                 line = 2,
                 embedtitle = `Number of players online on ${data.IP}`;
 
-            logs.logs.forEach(log => {
+            logs.forEach(log => {
                 if (log.online == false) ylbl.push(0);
                 else ylbl.push(log.playersOnline);
 
@@ -60,7 +51,7 @@ module.exports = {
         }
         else if (args == 'uptime') {
             // Check if logs are empty
-            if (logs.logs.length == 0) {
+            if (logs.length == 0) {
                 message.channel.send('The logs are empty right now, please wait for them to update!');
                 return;
             }
@@ -77,7 +68,7 @@ module.exports = {
                 down = 0;
 
             // calculate the uptime and percentage
-            logs.logs.forEach(log => {
+            logs.forEach(log => {
                 if (log.online == true) {
                     up++
                     ylbl.push(1);
@@ -99,7 +90,7 @@ module.exports = {
             var embeddescr = ``, numberofocc = {}, playerslist = [];
 
             // Get all the players recorded in the logs into a array
-            logs.logs.forEach(log => {
+            logs.forEach(log => {
                 if (log.playerNamesOnline) {
                     const players = log.playerNamesOnline.split(",");
                     playerslist.push(...players);
@@ -127,7 +118,8 @@ module.exports = {
             });
         } 
         else {
-            message.channel.send("mc!`" + args.toString() + "` isnt a valid option! Use `mc!chart uptime`, `mc!chart playersonline` or `mc!chart mostactive`")
+            message.channel.send("mc!`" + args.toString() + "` isn't a valid option! Use `mc!chart uptime`, `mc!chart playersonline` or `mc!chart mostactive`")
+            return;
         }
 
         // Change the width of the chart based on the number of lines in the log

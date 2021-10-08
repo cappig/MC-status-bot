@@ -1,7 +1,7 @@
 const Server = require('../database/ServerSchema');
 const Log = require('../database/logSchema');
 const { Permissions } = require('discord.js');
-const { PingMC } = require("pingmc");
+const { lookup } = require('../modules/cache.js');
 
 module.exports = {
     name: 'setup',
@@ -19,8 +19,9 @@ module.exports = {
                 }, {
                     "IP": args[0]
                 }, {
-                    useFindAndModify: false
-                })
+                    useFindAndModify: false,
+                    new: true
+                }).cache()
                 .catch((err) => console.error(err))
 
             // Remove all logs
@@ -31,8 +32,9 @@ module.exports = {
                         logs: []
                     }
                 }, {
-                    useFindAndModify: false
-                })
+                    useFindAndModify: false,
+                    new: true
+                }).cache()
                 .catch((err) => console.error(err))
             
                 message.channel.send(`The ip has been set to ${args[0]}!`);
@@ -51,8 +53,7 @@ module.exports = {
         }
 
         // Get the ip of the server
-        const result = await Server.findById(message.guild.id)
-            .catch((err) => console.error(err));
+        const result = await lookup('Server', message.guild.id);
 
         // Check if monitoring channels already exist. if they do remove them
         if (result.StatusChannId && result.NumberChannId && result.CategoryId) {
@@ -111,8 +112,9 @@ module.exports = {
                 "NumberChannId": Number.id,
                 "CategoryId": Category.id
             }, {
-                useFindAndModify: false
-            })
+                useFindAndModify: false,
+                new: true
+            }).cache()
             .then(() => message.channel.send('The channels have been created successfully! Please allow up to five minutes for the channels to update.'))
             .catch((err) => console.error(err))
 

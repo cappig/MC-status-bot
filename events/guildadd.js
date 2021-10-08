@@ -1,4 +1,5 @@
 const Server = require('../database/ServerSchema');
+const { createCache } = require('../modules/cache.js');
 
 module.exports = {
     name: 'guildCreate',
@@ -7,9 +8,12 @@ module.exports = {
 
         const server = new Server({
             _id: guild.id
-        });
+        })
         server.save()
-            .then(() => console.log('\x1b[2m%s\x1b[0m', '   ⤷ Added the server db entry.'))
+            .then(() => {
+                console.log('\x1b[2m%s\x1b[0m', '   ⤷ Added the server db entry.');
+                createCache('Server', guild.id) 
+            })
             .catch((err) => console.error(err))
     }
 }

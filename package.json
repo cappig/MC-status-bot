@@ -36,6 +36,7 @@
     "node-cron": "^3.0.0",
     "node-libcurl": "^2.3.3",
     "pingmc": "^3.1.0",
+    "redis": "^3.1.2",
     "topgg-autoposter": "^2.0.0"
   },
   "devDependencies": {

@@ -4,13 +4,14 @@
  * while it was offline.
  */
 const Server = require('../database/ServerSchema');
+const { geetallCache } = require('../modules/cache.js');
 
 module.exports = {
     async execute(client) {
         // Array of guild ids that the bot is in
         const guilds = client.guilds.cache.map(guild => guild.id);
 
-        const docs = await Server.find();
+        const docs = await geetallCache('Server');
         // Array of guild ids that are in the database
         const database = docs.map(docs => docs.id);
 
@@ -20,9 +21,7 @@ module.exports = {
             if (!database.includes(guild)) {
                 a++;
 
-                const server = new Server({
-                    _id: guild
-                });
+                const server = new Server({_id: guild});
                 server.save()
                     .catch((err) => console.error(err))
             }
@@ -36,7 +35,7 @@ module.exports = {
                         _id: entry
                     }, {
                         useFindAndModify: false
-                    })
+                    }).cache()
                     .catch((err) => console.error(err))
             }
         }

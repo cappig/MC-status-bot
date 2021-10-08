@@ -1,6 +1,7 @@
 const Server = require('../database/ServerSchema');
 const Log = require('../database/logSchema');
 const { Permissions } = require('discord.js');
+require('../modules/cache.js');
 
 module.exports = {
     name: 'setip',
@@ -22,8 +23,9 @@ module.exports = {
             }, {
                 "IP": args[0]
             }, {
-                useFindAndModify: false
-            })
+                useFindAndModify: false,
+                new: true
+            }).cache()
             .catch((err) => console.error(err))
 
         // Remove all logs
@@ -34,8 +36,9 @@ module.exports = {
                     logs: []
                 }
             }, {
-                useFindAndModify: false
-            })
+                useFindAndModify: false,
+                new: true
+            }).cache()
             .catch((err) => console.error(err))
 
         message.channel.send(`The main IP has been set to: ${args}`)
