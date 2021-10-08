@@ -31,8 +31,6 @@ module.exports = {
         } else console.log('\x1b[2m%s\x1b[0m', "   ⤷ No topgg token was provided - stats won't be posted to top.gg!")
 
         // Call the pinger every 5 minutes
-        pinger.execute(client);
-
         cron.schedule('*/5 * * * *', () => {
             pinger.execute(client);
         });          

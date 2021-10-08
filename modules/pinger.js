@@ -15,25 +15,19 @@ module.exports = {
                 .ping()
                 .then((result) => {
                     // Aternos servers stay online and display Offline in their MOTD when they are actually offline
-                    if (server.IP.includes('aternos.me') && result.version.name == '● Offline') {
+                    if ((server.IP.includes('aternos.me') && result.version.name == '● Offline') || !result) {
                         // server is offline
                         if (server.Logging == true) {
                             logger.execute('', server);
                         }
                         channupd.execute(client, server, '');
                     }
-                    else if (result) {
+                    else {
                         // server is online
                         if (server.Logging == true) {
                             logger.execute(result, server);
                         }
                         channupd.execute(client, server, result);
-                    } else {
-                        // server is offline
-                        if (server.Logging == true) {
-                            logger.execute('', server);
-                        }
-                        channupd.execute(client, server, '');
                     }
                 })
                 .catch((error) => {
@@ -49,7 +43,6 @@ module.exports = {
                     }
                     return;
                 })
-            
         }
     }
 }
