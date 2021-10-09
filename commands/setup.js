@@ -1,6 +1,7 @@
 const Server = require('../database/ServerSchema');
 const Log = require('../database/logSchema');
 const { Permissions } = require('discord.js');
+const { PingMC } = require("pingmc");
 const { lookup } = require('../modules/cache.js');
 
 module.exports = {
@@ -11,8 +12,10 @@ module.exports = {
             message.channel.send('You have to be a admin to use this command!');
             return;
         }
-
+        
         if (args.toString()) {
+            var IP = args.toString();
+
             // Write changes to database
             Server.findByIdAndUpdate({
                     _id: message.guild.id
@@ -55,6 +58,8 @@ module.exports = {
         // Get the ip of the server
         const result = await lookup('Server', message.guild.id);
 
+        if (!IP) var IP = result.IP
+
         // Check if monitoring channels already exist. if they do remove them
         if (result.StatusChannId && result.NumberChannId && result.CategoryId) {
             // Remove the channels
@@ -68,14 +73,14 @@ module.exports = {
         }
 
         // check if server has a defined ip
-        if (!result.IP) {
+        if (!IP) {
             message.channel.send('Please use`mc!setip` to set a ip to monitor!');
             return;
         }
 
         // Create category
         let Category;
-        await message.guild.channels.create(`${result.IP}'s status`, {
+        await message.guild.channels.create(`${IP}'s status`, {
             type: 'GUILD_CATEGORY',
             permissionOverwrites: [{
                 id: message.guild.me.roles.highest,
@@ -120,11 +125,11 @@ module.exports = {
 
         // Fetch server status
 
-        new PingMC(result.IP)
+        new PingMC(IP)
             .ping()
             .then((pingresult) => {
                 // Aternos servers stay online and display Offline in their MOTD when they are actually offline
-                if ((result.IP.includes('aternos.me') && pingresult.version.name == '● Offline') || !pingresult) {
+                if ((IP.includes('aternos.me') && pingresult.version.name == '● Offline') || !pingresult) {
                     // server is offline
                     servoffline();
                 }

@@ -13,7 +13,7 @@ module.exports = {
 
         const docs = await geetallCache('Server');
         // Array of guild ids that are in the database
-        const database = docs.map(docs => docs.id);
+        const database = docs.map(docs => docs._id);
 
         let a = 0;
         let l = 0;
