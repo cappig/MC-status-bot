@@ -6,6 +6,8 @@ module.exports = {
     name: 'guildDelete',
     execute(guild) {
 
+        if(!guild.name) return;
+
         console.log('\x1b[1m%s\x1b[0m', `Left guild: ${guild.name}`);
 
         Server.findOneAndRemove({

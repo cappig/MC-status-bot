@@ -12,7 +12,7 @@ const serverSchema = new Schema({
     },
     Logging: {
         type: Boolean,
-        default: true
+        default: false
     },
     StatusChannId: {
         type: String,
