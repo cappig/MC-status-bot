@@ -24,6 +24,7 @@ module.exports = {
     
     // Mongo fallback
     else {
+      console.log(`${key} just fellback to mongo while lokking for the ${collection} collection!`)
       var result;
       if (collection == 'Log') {
         result = await Log.findById({_id: key});
@@ -38,7 +39,7 @@ module.exports = {
       }
       else {
         console.error(`${collection} is not a valid collection name - Log or Server!`);
-        return '';
+        return;
       }
 
       return result;
