@@ -24,7 +24,7 @@ module.exports = {
     
     // Mongo fallback
     else {
-      console.log(`${key} just fellback to mongo while lokking for the ${collection} collection!`)
+      console.log(`${key} just fellback to mongo while looking for the ${collection} collection!`)
       var result;
       if (collection == 'Log') {
         result = await Log.findById({_id: key});

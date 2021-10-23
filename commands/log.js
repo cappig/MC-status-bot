@@ -14,13 +14,12 @@ module.exports = {
             return;
         }
 
-        if (!(args[0] == 'on' || args[0] == 'off') || !args[0]) {
+        if (args == 'on') var logging = true;
+        else if (args == 'off') var logging = false;
+        else {
             message.channel.send('Please specify a valid option (on/off)');
             return;
         }
-
-        var logging = true;
-        if (args == 'off') var logging = false;
 
         // Write to database
         Server.findByIdAndUpdate({

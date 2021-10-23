@@ -1,5 +1,6 @@
 const Server = require('../database/ServerSchema');
 const Log = require('../database/logSchema');
+const sanitize = require('mongo-sanitize');
 const { Permissions } = require('discord.js');
 const { PingMC } = require("pingmc");
 const { lookup } = require('../modules/cache.js');
@@ -20,7 +21,7 @@ module.exports = {
             Server.findByIdAndUpdate({
                     _id: message.guild.id
                 }, {
-                    "IP": args[0]
+                    "IP": sanitize(args.toString())
                 }, {
                     useFindAndModify: false,
                     new: true
