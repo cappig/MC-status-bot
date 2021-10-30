@@ -4,6 +4,9 @@ const { lookup } = require('../modules/cache.js');
 
 module.exports = {
     name: 'ping',
+    description: 'Ping a specified ip. You can use the command with no arguments to ping the default ip',
+    options: 'ip',
+    admin: false,
     async execute(message, args) {
         message.channel.sendTyping();
 

@@ -4,6 +4,8 @@ const parser = require("fast-xml-parser");
 
 module.exports = {
     name: 'news',
+    description: 'Get the latest articles from minecraft.net',
+    admin: false,
     async execute(message) {
 
         message.channel.sendTyping()

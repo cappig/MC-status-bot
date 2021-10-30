@@ -1,0 +1,23 @@
+aside.panel
+    div.nameWrapper
+        if server.icon
+            img.server(src=`https://cdn.discordapp.com/icons/${server.id}/${server.icon}.webp`)
+        else
+            img.server(src=`https://eu.ui-avatars.com/api/?name=${server.name}&background=a0a0a0&color=231F20`)
+        if (server.name.length > 25)
+            - var name = server.name.substring(0, 24) + " . . ."
+            h1.servername #{name}
+        else
+            h1.servername #{server.name}
+    div.optionWrapper
+        a(href=`/dash/${server.id}/general`)
+            h1.paneltxt General
+        hr.line
+        a(href=`/dash/${server.id}/setup`)
+            h1.paneltxt Set up channels
+        hr.line
+        a(href=`/dash/${server.id}/chart`)
+            h1.paneltxt Charts and data
+        hr.line
+        a(href=`/dash/${server.id}/help`)
+            h1.paneltxt Help

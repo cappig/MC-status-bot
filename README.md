@@ -30,7 +30,7 @@ By putting the word 'bedrock' or just the letter 'b' the bot will ping this ip u
 
 `mc!setup [ip] [bedrock]` Create the two channels that will display the server status.
 
-`mc!rmchann` Removes the monitoring channels
+`mc!rmchann` Removes the monitoring channels.
 
 <br>
 
@@ -38,17 +38,17 @@ By putting the word 'bedrock' or just the letter 'b' the bot will ping this ip u
 
 `mc!ping [ip] [bedrock]` Ping a specified ip. You can use the command with no arguments to ping the ip specified by using the `mc!setip` command.
 
-`mc!chart uptime` Create a chart of players online over time on the server.
+`mc!chart uptime` Create a chart of server uptime and calculate the uptime percentage.
 
-`mc!chart playersonline` Create a chart of server uptime and calculate the uptime percentage.
+`mc!chart playersonline` Create a chart of players online over time on the server.
 
 `mc!chart mostactive` Create a bar chart with the number of minutes each player spent on th server.
 
 `mc!news` Get the latest articles from minecraft.net
 
-`mc!ip` Return the default ip of the guild
+`mc!ip` Get the default ip of the guild.
 
-`mc!bug` Report a bug in the bot
+`mc!bug` Report a bug in the bot.
 
 <br>
 

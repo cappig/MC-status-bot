@@ -2,7 +2,8 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'help',
-
+    description: 'List all the commands and relevant info about the bot',
+    admin: false,
     execute(message) {
 
         const description = 'Please report any bugs that you encounter on [Github](https://github.com/cappig/MC-status-bot/issues) or use the `mc!bug` command!\n' +

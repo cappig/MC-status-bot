@@ -1,0 +1,20 @@
+include includes/heder.pug
+link(rel='stylesheet', href='/css/landing.css')
+
+#particles-js
+
+include includes/navbar.pug
+
+div.outer
+    div.TitleTxt
+        span.TitleInner Mc status bot
+    span.TitleBottom A versatile Discord bot that allows you to display, log and graph the status of a Minecraft server.
+    div.BtnWrapper
+        a.Btn#Btn1(href='https://discord.com/oauth2/authorize?client_id=816747912888975362&scope=bot&permissions=268749904') Invite to your server
+        if user
+            a.Btn(href='/dash') Open the dashboard
+        else 
+            a.Btn(href='/login') Log in and open dash
+
+
+include includes/footer.pug

@@ -6,8 +6,10 @@ require('../modules/cache.js');
 
 module.exports = {
     name: 'log',
-
-    execute(message, args) {
+    description: 'Turn logging on or off',
+    options : 'on,off',
+    admin: true,
+    execute (message, args, client, bypass) {
         // Check if the person is admin
         if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) && message.member.id != (process.env.OWNERID).toString()) {
             message.channel.send('You have to be a admin to use this command!');

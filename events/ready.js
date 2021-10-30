@@ -22,6 +22,14 @@ module.exports = {
             })();
         }
 
+        // Make client global
+        global.client = client;
+
+        // Start the dashboard
+        // TODO: START IN A CHILD PROCESS
+        console.log('Starting the dashboard.');
+        require('../dashboard/dashboard.js');
+
         // Post stats to top.gg
         if (process.env.TOPGGAPI) {
             AutoPoster(process.env.TOPGGAPI, client)
@@ -31,8 +39,12 @@ module.exports = {
         } else console.log('\x1b[2m%s\x1b[0m', "   ⤷ No topgg token was provided - stats won't be posted to top.gg!")
 
         // Call the pinger every 5 minutes
+        setInterval(() => {
+            //console.log('aa')
+            //pinger.execute(client);
+        }, 50);
         cron.schedule('*/5 * * * *', () => {
-            pinger.execute(client);
+           //pinger.execute(client);
         });          
     }
 }

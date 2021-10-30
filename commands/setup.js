@@ -6,7 +6,10 @@ const { lookup } = require('../modules/cache.js');
 
 module.exports = {
     name: 'setup',
-    async execute(message, args, client) {
+    description: 'Create the two channels that will display the server status',
+    options: 'ip',
+    admin: true,
+    async execute(message, args, client, bypass) {
         // Check if the person is admin
         if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) && message.member.id != (process.env.OWNERID).toString()) {
             message.channel.send('You have to be a admin to use this command!');

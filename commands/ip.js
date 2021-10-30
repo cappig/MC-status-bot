@@ -2,7 +2,8 @@ const { lookup } = require('../modules/cache.js');
 
 module.exports = {
     name: 'ip',
-
+    description: 'Get the default ip of the guild',
+    admin: false,
     async execute(message) {
         // Fetch data from db
         // By using redis caching this function's execution time dropped from a average of 29ms to less then one

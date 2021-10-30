@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'bug',
+    admin: false,
+    description: 'Report a bug in the bot',
     execute(message, args, client) {
         const owner = client.users.cache.get(process.env.OWNERID)
         const bug = args.slice(0).join(' ');

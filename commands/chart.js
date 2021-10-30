@@ -5,6 +5,9 @@ const { lookup } = require('../modules/cache.js');
 
 module.exports = {
     name: 'chart',
+    description: 'Create a chart of the uptime, players online over time or the number of minutes each player spent on th server',
+    options: 'uptime, playersonline, mostactive',
+    admin: false,
     async execute(message, args) {
         if (!args.toString()) {
             message.channel.send("Please specify what you want to chart! Use `mc!chart uptime`, `mc!chart playersonline` or `mc!chart mostactive`");

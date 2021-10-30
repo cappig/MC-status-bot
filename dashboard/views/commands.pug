@@ -1,0 +1,22 @@
+include includes/heder.pug
+link(rel='stylesheet', href='/css/commands.css')
+
+#particles-js
+
+include includes/navbar.pug
+
+div.container
+    h1.commandtitle Admin commands
+    each command in commands
+        if command.admin == true
+            div.command
+                p.commandname #{command.name}
+                p.commanddescription #{command.description}
+    h1.commandtitle(style='margin-top: 6vh') User commands
+    each command in commands
+        if command.admin == false
+            div.command
+                p.commandname #{command.name}
+                p.commanddescription #{command.description}
+
+include includes/footer.pug
