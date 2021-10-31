@@ -1,4 +1,5 @@
 const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
+const moment = require('moment');
 const Discord = require('discord.js');
 const { lookup } = require('../modules/cache.js');
 
@@ -19,7 +20,7 @@ module.exports = {
         const data = await lookup('Server', message.guild.id) 
 
         // Check if logs exist
-        if (logs.length == 0 || logs == null || !data.IP) {
+        if (logs.length <= 1 || logs == null || !data.IP) {
             message.channel.send("This server doesn't have any logs. Make sure that logging is turned on by using the `mc!log on` command.");
             return;
         }
@@ -44,7 +45,7 @@ module.exports = {
                 if (log.online == false) ylbl.push(0);
                 else ylbl.push(log.playersOnline);
 
-                xlbl.push(log.timestamp);
+                xlbl.push(moment(log.timestamp).format('HH:mm'));
             })
 
             var embeddescr = `There have been a maximum of ${Math.max( ...ylbl )} players online at onece, and a minimum of ${Math.min( ...ylbl )}.`
@@ -76,9 +77,9 @@ module.exports = {
                     down++
                     ylbl.push(0);
                 }
-                xlbl.push(log.timestamp);
+                xlbl.push(moment(log.timestamp).format('HH:mm'));
             })
-            var embeddescr = `${data.IP} was up for ${up * 5} minutes and down for ${down * 5} minutes. This means that ${data.IP} has a uptime percentage of ${(up / (up+down)*100).toFixed(2)}%`
+            var embeddescr = `${data.IP} was up for ${up * 5} minutes and down for ${down * 5} minutes. This means that ${data.IP} has a uptime percentage of ${Math.round( ((up/(up+down)*100) + Number.EPSILON) * 100) / 100}%`
         } 
         else if (args == 'mostactive') {
             // Set the options for chart.js
@@ -87,7 +88,7 @@ module.exports = {
                 line = 1,
                 embedtitle = `Most active players on ${data.IP} in the last 24 hours`;
 
-            var embeddescr = ``, numberofocc = {}, playerslist = [];
+            var numberofocc = {}, playerslist = [];
 
             // Get all the players recorded in the logs into a array
             logs.forEach(log => {
@@ -116,6 +117,7 @@ module.exports = {
                 xlbl.push(element[0]);
                 ylbl.push(element[1] * 5);
             });
+            var embeddescr = `${xlbl[0]} was the most active player with ${ylbl[0]} minutes spent online in the last 24 hours.`
         } 
         else {
             message.channel.send("mc!`" + args.toString() + "` isn't a valid option! Use `mc!chart uptime`, `mc!chart playersonline` or `mc!chart mostactive`")
@@ -155,6 +157,7 @@ module.exports = {
                         label,
                         data: ylbl,
                         fill: true,
+                        color: "rgb(247, 247, 247)",
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderColor: 'rgba(255,99,132,1)',
                         borderWidth: line,
@@ -167,17 +170,21 @@ module.exports = {
                             radius: 0
                         }
                     },
-                    legend: {
-                        labels: {
-                            fontColor: "rgb(247, 247, 247)",
-                            fontSize: 15
+                    plugins: { 
+                        legend: {
+                            labels: {
+                                color: "rgb(247, 247, 247)",
+                                font: {
+                                    size: 15
+                                }
+                            }
                         }
                     },
                     scales: {
-                        yAxes: [{
+                        y: {
+                            beginAtZero: true,
                             ticks: {
-                                beginAtZero: true,
-                                fontColor: "rgb(247, 247, 247)",
+                                color: "rgb(247, 247, 247)",
                                 fontSize: 15,
                                 stepSize: 1,
                                 max,
@@ -188,18 +195,14 @@ module.exports = {
                                     } else return value;
                                 }
                             }
-                        }],
-                        xAxes: [{
-                            type: xtype,
-                            time: {
-                                unit: 'hour'
-                            },
+                        },
+                        x: {
                             ticks: {
-                                fontColor: "rgb(247, 247, 247)",
+                                color: "rgb(247, 247, 247)",
                                 fontSize: 13,
                                 stepSize: 1
                             }
-                        }]
+                        }
                     }
                 }
             };
