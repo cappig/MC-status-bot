@@ -1,0 +1,154 @@
+@mixin bg
+    background-color: #1b1d1f6b
+    backdrop-filter: blur(20px)
+
+.container
+    margin: 80px auto 80px
+    width: 60%
+    height: 100%
+    padding: 0px 40px
+    color: rgb(242, 244, 251)
+    font-family: 'Roboto', sans-serif
+
+.servername
+    height: 40px
+    line-height: 40px
+    margin: 0
+    float: right
+    color: rgb(242, 244, 251)
+    font-size: 14px
+    font-weight: 900
+    //vertical-align: middle
+
+.server
+    margin-right: 15px
+    float: right
+    border: 1px solid rgb(242, 244, 251)
+    width: 40px
+    height: 40px
+    min-width: 40px
+    min-height: 40px
+    border-radius: 50%
+
+.nameWrapper
+    display: flex
+    justify-content: left
+    align-items: flex-end
+    margin-bottom: 40%
+    padding: 15px 20px
+    border-radius: 7px
+    @include bg
+
+.optionWrapper
+    padding: 15px 20px
+    border-radius: 7px
+    font-size: 15px
+    text-align: left
+    display: block
+    padding: 10px 0px
+    border-radius: 7px
+    @include bg
+
+    a
+        display: block
+        padding: 0.25rem 1.5rem
+        padding: 7px 20px px
+        color: white
+        margin: 0
+        font-family: 'Roboto', sans-serif
+        font-weight: 600
+
+        &:hover
+            background-color: #1256996b
+
+.panel
+    display: block
+    width: 230px
+    float: left
+    color: rgb(242, 244, 251)
+
+.configWrapper
+    margin-left: 300px
+    color: rgb(242, 244, 251)
+
+.config
+    padding: 30px
+    border-radius: 7px
+    @include bg
+
+.inputLbl
+    font-size: 17px !important
+    font-weight: 900
+    margin-bottom: 13px
+
+.inputDesc
+    font-size: 13px !important
+    color: rgba(215, 217, 223, 0.911)
+    font-weight: 500
+    margin-top: -7px
+    margin-bottom: 20px
+
+.charttxt
+    margin-bottom: 30px
+
+#charttxtb
+    margin-top: 40px
+
+.setupDesc
+    margin-top: -30px
+    margin-bottom: 30px
+
+.genline
+    margin-top: 20px !important
+    margin-bottom: 20px !important
+
+.title
+    font-size: 20px !important
+    font-weight: 900
+    margin-bottom: 35px
+
+.textInput
+    padding: 0.375vh .75rem
+    color: rgb(242, 244, 251)
+    background-color: #1b1d1f67
+    border-radius: 7px
+    border: none
+    outline-color: transparent
+    transition: outline-color 0.15s ease-in-out
+
+    &:focus
+        outline-style: solid
+        outline-color: #1b5894
+
+.selector
+    color: #C0C0C0
+    background-color: #1b1d1f67
+    border-radius: 7px
+    border: none
+    outline-color: transparent
+    transition: outline-color 0.15s ease-in-out
+
+    &:focus
+        outline-style: solid
+        outline-color: #1b5894
+
+    option
+        border: none
+        background-color: #1b1d1f
+
+.subBtn
+    display: flex
+    align-items: center
+    justify-content: center
+    font-family: 'Roboto', sans-serif
+    margin-top: 35px
+    height: 30px
+    width: 70px
+    font-weight: 500
+    border-radius: 7px
+    color: white
+    background: #1b5894
+    border-style: none
+
+.settingsWrapper
+    margin-left: 20px

@@ -22,7 +22,10 @@ passport.use(
             if (guilddata) guild.mutual = true;
             else guild.mutual = false;
           });
-          // TODO: SORT ARRAY
+          
+          // Sort the guilds so that the mutual ones are at the begging
+          validGuilds.sort(function(x,y) { return x.mutual == true ? -1 : y.mutual == true ? 1 : 0; });
+          
           const user = await User.findOneAndUpdate({_id: id}, {
             tag: `${username}#${discriminator}`,
             avatar,

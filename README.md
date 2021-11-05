@@ -5,6 +5,10 @@
 
 <br>
 
+## **⚠️ This is a feature branch and the code here may not be stable. ⚠️**
+
+<br>
+
 Let everyone in your Discord server quickly see the status of a minecraft server:
 
 ![img1](https://i.ibb.co/kQ05Pjx/example1.png)

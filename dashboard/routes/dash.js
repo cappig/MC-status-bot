@@ -47,8 +47,8 @@ router.post('/:id/general', async function(req, res) {
     message.channel = user;
 
     if (req.body.ip){
-        const setip = commands.find(element => element.name == 'setip');
-        await setip.execute(message, req.body.ip, client, true)
+        //const setip = commands.find(element => element.name == 'setip');
+        //await setip.execute(message, req.body.ip, client, true)
     }
     if (req.body.logging){
         const log = commands.find(element => element.name == 'log');

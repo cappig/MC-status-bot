@@ -1,14 +1,14 @@
 const express = require("express");
-const path = require('path');
+const compression = require("compression");
+const path = require("path");
 const session = require("express-session");
-const MongoDBStore = require('connect-mongodb-session')(session);
+const MongoDBStore = require("connect-mongodb-session")(session);
 const passport = require("passport");
 
 const port = process.env.PORT || 3000;
 const app = express();
 
-
-require('./modules/passport.js')
+require('./modules/passport.js');
 
 // Session config
 const store = new MongoDBStore({
@@ -32,6 +32,11 @@ app.use(
   })
 );
 
+// Get commands
+const client = global.client;
+const commands = [ ...client.commands.values()]
+global.commands = commands;
+
 // Start passport
 app.use(passport.initialize());
 app.use(passport.session());
@@ -41,6 +46,9 @@ app.set('view engine', 'pug')
 
 app.set('views', path.join(__dirname, '../dashboard/views'))
 app.set('includes', path.join(__dirname, '../dashboard/views/includes'))
+
+// Compression middleware
+app.use(compression())
 
 // BodyParser middleware
 app.use(express.json());
