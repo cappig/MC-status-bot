@@ -1,4 +1,5 @@
 const { Client, Intents, Collection } = require('discord.js');
+const { RateLimiter } = require('discord.js-rate-limiter');
 const fs = require('fs');
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -8,6 +9,7 @@ const Server = require('./database/ServerSchema');
 const redis = require("redis");
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+client.rateLimiter = new RateLimiter(1, 1000); // Rate limit to one message per second
 client.commands = new Collection();
 client.prefix = 'mc!';
 
