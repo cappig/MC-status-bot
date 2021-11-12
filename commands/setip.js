@@ -6,7 +6,6 @@ require('../modules/cache.js');
 
 module.exports = {
     name: 'setip',
-
     execute(message, args) {
         // Check if the person is admin
         if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
@@ -18,11 +17,15 @@ module.exports = {
             return;
         }
 
+        var ip = args[0].toString().toLowerCase();
+        const bedrock = args[1] == 'bedrock' || args[1] == 'b' ? true : false
+        
         // Write changes to database
         Server.findByIdAndUpdate({
                 _id: message.guild.id
             }, {
-                "IP": sanitize(args.toString())
+                "IP": sanitize(ip),
+                "Bedrock": bedrock
             }, {
                 useFindAndModify: false,
                 new: true
@@ -42,6 +45,6 @@ module.exports = {
             }).cache()
             .catch((err) => console.error(err))
 
-        message.channel.send('The main IP has been set to: `' + args + '`')
+        message.channel.send('The main IP has been set to: `' + args[0] + '`')
     }
 }

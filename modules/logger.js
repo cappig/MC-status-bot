@@ -22,13 +22,17 @@ module.exports = {
 
         // Log the status
         if (result) {
-            if (result.players.list.length != 0) {
+            if (result.samplePlayers && result.samplePlayers != null && result.samplePlayers.length > 0) {
+                const playernames = result.samplePlayers.map( function(obj) {
+                    return obj.name;
+                });
+
                 dbdata = {
                     $push: {
                         logs: {
                             online: true,
-                            playersOnline: result.players.online,
-                            playerNamesOnline: result.players.list.toString()
+                            playersOnline: result.onlinePlayers,
+                            playerNamesOnline: playernames.toString()
                         }
                     }
                 }
@@ -37,7 +41,7 @@ module.exports = {
                     $push: {
                         logs: {
                             online: true,
-                            playersOnline: result.players.online
+                            playersOnline: result.onlinePlayers
                         }
                     }
                 }

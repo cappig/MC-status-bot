@@ -1,8 +1,7 @@
 const Server = require('../database/ServerSchema');
-const Log = require('../database/logSchema');
-const sanitize = require('mongo-sanitize');
 const { Permissions } = require('discord.js');
-const { PingMC } = require("pingmc");
+const setip = require('../commands/setip.js');
+const util = require('minecraft-server-util');
 const { lookup } = require('../modules/cache.js');
 
 module.exports = {
@@ -14,34 +13,13 @@ module.exports = {
             return;
         }
         
-        if (args.toString()) {
-            var IP = args.toString();
-
-            // Write changes to database
-            Server.findByIdAndUpdate({
-                    _id: message.guild.id
-                }, {
-                    "IP": sanitize(args.toString())
-                }, {
-                    useFindAndModify: false,
-                    new: true
-                }).cache()
-                .catch((err) => console.error(err))
-
-            // Remove all logs
-            Log.findByIdAndUpdate({
-                    _id: message.guild.id
-                }, {
-                    $set: {
-                        logs: []
-                    }
-                }, {
-                    useFindAndModify: false,
-                    new: true
-                }).cache()
-                .catch((err) => console.error(err))
-            
-                message.channel.send(`The ip has been set to ${args[0]}!`);
+        if (args) {
+            try {
+                setip.execute(message, args, client);
+            } catch (error) {
+                console.error(error);
+                message.reply({ content: 'Uh, oh! An error occurred while trying to set the ip! (**X  _  X**)', allowedMentions: { repliedUser: false }})
+            }
         }
 
         // Check if bot has all the permissions
@@ -58,8 +36,7 @@ module.exports = {
 
         // Get the ip of the server
         const result = await lookup('Server', message.guild.id);
-
-        if (!IP) var IP = result.IP
+        const ip = args[0].split(':')[0].toLowerCase();
 
         // Check if monitoring channels already exist. if they do remove them
         if (result.StatusChannId && result.NumberChannId && result.CategoryId) {
@@ -69,19 +46,19 @@ module.exports = {
                 await message.guild.channels.cache.get(result.NumberChannId).delete();
                 await message.guild.channels.cache.get(result.CategoryId).delete();
             } catch (err) {
-                if (!err == "TypeError: Cannot read properties of undefined (reading 'delete')") console.error(err);
+                console.error(err);
             }
         }
 
         // check if server has a defined ip
-        if (!IP) {
+        if (!ip) {
             message.channel.send('Please use`mc!setip` to set a ip to monitor!');
             return;
         }
 
         // Create category
         let Category;
-        await message.guild.channels.create(`${IP}'s status`, {
+        await message.guild.channels.create(`${ip}'s status`, {
             type: 'GUILD_CATEGORY',
             permissionOverwrites: [{
                 id: message.guild.me.roles.highest,
@@ -95,27 +72,27 @@ module.exports = {
         })
 
         // Crate channels and add to category
-        let Status;
+        let StatusChan;
         await message.guild.channels.create('Updating status. . .', {
             type: 'GUILD_VOICE'
         }).then(async function(channel) {
             await channel.setParent(Category.id);
-            Status = channel;
+            StatusChan = channel;
         })
-        let Number;
+        let NumberChan;
         await message.guild.channels.create('Updating players . . .', {
             type: 'GUILD_VOICE'
         }).then(async function(channel) {
             await channel.setParent(Category.id);
-            Number = channel;
+            NumberChan = channel;
         })
 
         // Write to database
         Server.findByIdAndUpdate({
                 _id: message.guild.id
             }, {
-                "StatusChannId": Status.id,
-                "NumberChannId": Number.id,
+                "StatusChannId": StatusChan.id,
+                "NumberChannId": NumberChan.id,
                 "CategoryId": Category.id
             }, {
                 useFindAndModify: false,
@@ -124,46 +101,48 @@ module.exports = {
             .then(() => message.channel.send('The channels have been created successfully! Please allow up to five minutes for the channels to update.'))
             .catch((err) => console.error(err))
 
-        // Fetch server status
 
-        new PingMC(IP)
-            .ping()
+        const portnum = Number(args[0].split(':')[1]);
+        const port =  portnum < 65536 || portnum > 0 ? NaN : portnum;
+
+        if (args[1] == 'bedrock' || args[1] == 'b') {
+            var pinger = util.statusBedrock(ip.split(':')[0].toLowerCase(), { port: port ? port : 19132})
+        } else {
+            var pinger = util.status(ip.split(':')[0].toLowerCase(), { port: port ? port : 25565})
+        }
+
+        pinger
             .then((pingresult) => {
                 // Aternos servers stay online and display Offline in their MOTD when they are actually offline
-                if ((IP.includes('aternos.me') && pingresult.version.name == '● Offline') || !pingresult) {
+                if (!pingresult || (ip.includes('aternos.me') && pingresult.version == '● Offline')) {
                     // server is offline
                     servoffline();
-                }
-                else {
+                } else {
                     // server is online
                     servonline(pingresult);
                 }
             })
             .catch((error) => {
-                // Console log errors exept the ones that indiacte that a server is offline
-                if (!(error.code == "ENOTFOUND" || error.code == "ECONNREFUSED" || error.code == "EHOSTUNREACH" || error.code == "ECONNRESET" || error.message == "Timed out")) {
-                    console.error('An error occurred in the pinger module:' + error);
-                }
                 // server is offline
                 servoffline();
-                return;
             })
 
         async function servonline(pingresult) {
             // server is online
-            await client.channels.cache.get(Status.id).setName('🟢 ONLINE');
-            const chann = client.channels.cache.get(Number.id);
+            await client.channels.cache.get(StatusChan.id).setName('🟢 ONLINE');
+            const chann = client.channels.cache.get(NumberChan.id);
             await chann.permissionOverwrites.edit(chann.guild.roles.everyone, {
                 VIEW_CHANNEL: true
             });
-            await chann.setName(`👥 Players online: ${pingresult.players.online}`)
+            await chann.setName(`👥 Players online: ${pingresult.onlinePlayers}`)
         }
-        function servoffline() {
-            client.channels.cache.get(Status.id).setName('🔴 OFFLINE');
-            const chann = client.channels.cache.get(Number.id);
-            chann.permissionOverwrites.edit(chann.guild.roles.everyone, {
+        async function servoffline() {
+            await client.channels.cache.get(StatusChan.id).setName('🔴 OFFLINE');
+            const chann = client.channels.cache.get(NumberChan.id);
+            await chann.permissionOverwrites.edit(chann.guild.roles.everyone, {
                 VIEW_CHANNEL: false
             });
+            await chann.setName(`👥 Players online: 0`)
         }
     }
 }

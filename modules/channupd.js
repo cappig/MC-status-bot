@@ -4,6 +4,7 @@ module.exports = {
     execute(client, server, result) {
         // Check if channels are defined
         if (!server.StatusChannId || !server.NumberChannId || !server.CategoryId) return;
+        if (!client.channels.cache.get(server.StatusChannId) || !client.channels.cache.get(server.NumberChannId) || !client.channels.cache.get(server.CategoryId)) return;
 
         // Change the name of the category to the right ip if it isn't
         if (!(client.channels.cache.get(server.CategoryId).name == server.IP + `'s status`)) {
@@ -18,15 +19,18 @@ module.exports = {
             chann.permissionOverwrites.edit(chann.guild.roles.everyone, {
                 VIEW_CHANNEL: true
             });
-            chann.setName(`👥 Players online: ${result.players.online}`);
+            chann.setName(`👥 Players online: ${result.onlinePlayers}`);
         }
 
         // server is offline
         else {
             client.channels.cache.get(server.StatusChannId).setName('🔴 OFFLINE');
-            client.channels.cache.get(server.NumberChannId).permissionOverwrites.edit(client.channels.cache.get(server.NumberChannId).guild.roles.everyone, {
+
+            const chann = client.channels.cache.get(server.NumberChannId);
+            chann.permissionOverwrites.edit(chann.guild.roles.everyone, {
                 VIEW_CHANNEL: false
             });
+            chann.setName(`👥 Players online: 0`);
         }
     }
 }

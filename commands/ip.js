@@ -10,10 +10,9 @@ module.exports = {
 
         if (!data.IP) {
             message.channel.send('This server doest have a default ip set! A admin can do that by using the `mc!setip` command.');
-            return;
         } else {
-            message.channel.send("This server's default ip is `" + data.IP + "`");
-            return;
+            if (data.Bedrock == true) message.channel.send("This server's default ip is `" + data.IP + "`. This is a bedrock server.");
+            else message.channel.send("This server's default ip is `" + data.IP + "` This is a java server.");
         }
     }
 }

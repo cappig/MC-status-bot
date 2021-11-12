@@ -10,6 +10,10 @@ const serverSchema = new Schema({
         type: String,
         default: ""
     },
+    Bedrock: {
+        type: Boolean,
+        required: false
+    },
     Logging: {
         type: Boolean,
         default: false

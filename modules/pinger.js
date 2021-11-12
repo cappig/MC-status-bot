@@ -1,4 +1,4 @@
-const { PingMC } = require("pingmc");
+const util = require('minecraft-server-util');
 const logger = require('./logger.js');
 const channupd = require('./channupd.js');
 const { geetallCache } = require('../modules/cache.js');
@@ -11,11 +11,20 @@ module.exports = {
         for (const server of servers) {
             if (!server.IP) continue;
 
-            new PingMC(server.IP)
-                .ping()
+            if (server.Bedrock == true) {
+                const portnum = Number(args[0].split(':')[1]);
+                var port =  portnum < 65536 || portnum > 0 ? NaN : portnum;
+
+                var pinger = util.statusBedrock(server.IP.split(':')[0], { port: port ? port : 19132})
+            } else {
+                var pinger = util.status(server.IP.split(':')[0], { port: port ? port : 25565})
+            }
+    
+            pinger
                 .then((result) => {
+                    //console.log(result)
                     // Aternos servers stay online and display Offline in their MOTD when they are actually offline
-                    if ((server.IP.includes('aternos.me') && result.version.name == '● Offline') || !result) {
+                    if (!result || (server.IP.includes('aternos.me') && result.version == '● Offline')) {
                         // server is offline
                         if (server.Logging == true) {
                             logger.execute('', server);
@@ -36,12 +45,6 @@ module.exports = {
                         logger.execute('', server);
                     }
                     channupd.execute(client, server, '');
-
-                    // Console log errors exept the ones that indiacte that a server is offline
-                    if (!(error.code == "ENOTFOUND" || error.code == "ECONNREFUSED" || error.code == "EHOSTUNREACH" || error.code == "ECONNRESET" || error.message == "Timed out")) {
-                        console.error('An error occured in the pinger module:' + error);
-                    }
-                    return;
                 })
         }
     }
