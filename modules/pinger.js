@@ -11,20 +11,21 @@ module.exports = {
         for (const server of servers) {
             if (!server.IP) continue;
 
-            if (server.Bedrock == true) {
-                const portnum = Number(args[0].split(':')[1]);
-                var port =  portnum < 65536 || portnum > 0 ? NaN : portnum;
+            const ip = server.IP.split(':')[0];
 
-                var pinger = util.statusBedrock(server.IP.split(':')[0], { port: port ? port : 19132})
+            const portnum = Number(server.IP.split(':')[1]);
+            const port =  portnum < 65536 || portnum > 0 ? portnum : NaN;
+
+            if (server.Bedrock == true) {
+                var pinger = util.statusBedrock(ip, { port: port ? port : 19132})
             } else {
-                var pinger = util.status(server.IP.split(':')[0], { port: port ? port : 25565})
+                var pinger = util.status(ip, { port: port ? port : 25565})
             }
     
             pinger
                 .then((result) => {
-                    //console.log(result)
                     // Aternos servers stay online and display Offline in their MOTD when they are actually offline
-                    if (!result || (server.IP.includes('aternos.me') && result.version == '● Offline')) {
+                    if (!result || (server.IP.includes('aternos.me') && result.version == '§4● Offline')) {
                         // server is offline
                         if (server.Logging == true) {
                             logger.execute('', server);

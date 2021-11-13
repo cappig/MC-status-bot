@@ -13,7 +13,7 @@ module.exports = {
             return;
         }
         
-        if (args) {
+        if (args.length > 0) {
             try {
                 setip.execute(message, args, client);
             } catch (error) {
@@ -36,7 +36,7 @@ module.exports = {
 
         // Get the ip of the server
         const result = await lookup('Server', message.guild.id);
-        const ip = args[0].split(':')[0].toLowerCase();
+        const ip = result.IP.split(':')[0].toLowerCase();
 
         // Check if monitoring channels already exist. if they do remove them
         if (result.StatusChannId && result.NumberChannId && result.CategoryId) {
@@ -102,10 +102,10 @@ module.exports = {
             .catch((err) => console.error(err))
 
 
-        const portnum = Number(args[0].split(':')[1]);
-        const port =  portnum < 65536 || portnum > 0 ? NaN : portnum;
+        const portnum = Number(result.IP.split(':')[1]);
+        const port =  portnum < 65536 || portnum > 0 ? portnum : NaN;
 
-        if (args[1] == 'bedrock' || args[1] == 'b') {
+        if (result.Bedrock == true) {
             var pinger = util.statusBedrock(ip.split(':')[0].toLowerCase(), { port: port ? port : 19132})
         } else {
             var pinger = util.status(ip.split(':')[0].toLowerCase(), { port: port ? port : 25565})

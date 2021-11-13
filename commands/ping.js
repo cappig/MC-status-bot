@@ -15,14 +15,14 @@ module.exports = {
 
             if (data.Bedrock == true) var bedrock = 'ඞ';
 
-            var ip = data.IP.split(':').toString();
-            var portnum = Number(data.IP[0].split(':')[1]);
+            var ip = data.IP.split(':')[0];
+            var portnum = Number(data.IP.split(':')[1]);
         } else {
             var ip = args[0].split(':')[0].toLowerCase();
             var portnum = Number(args[0].split(':')[1]);
         }
 
-        const port =  portnum < 65536 || portnum > 0 ? NaN : portnum;
+        const port =  portnum < 65536 || portnum > 0 ? portnum : NaN;
 
         message.channel.sendTyping();
 
