@@ -5,7 +5,6 @@ const { geetallCache } = require('../modules/cache.js');
 
 module.exports = {
     async execute(client) {
-        // TODO: Make this get its info from cache
         const servers = await geetallCache('Server');
 
         for (const server of servers) {
@@ -17,9 +16,9 @@ module.exports = {
             const port =  portnum < 65536 || portnum > 0 ? portnum : NaN;
 
             if (server.Bedrock == true) {
-                var pinger = util.statusBedrock(ip, { port: port ? port : 19132})
+                var pinger = util.statusBedrock(ip, port ? port : 19132);
             } else {
-                var pinger = util.status(ip, { port: port ? port : 25565})
+                var pinger = util.status(ip, port ? port : 25565);
             }
     
             pinger

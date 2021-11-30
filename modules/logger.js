@@ -22,8 +22,8 @@ module.exports = {
 
         // Log the status
         if (result) {
-            if (result.samplePlayers && result.samplePlayers != null && result.samplePlayers.length > 0) {
-                const playernames = result.samplePlayers.map( function(obj) {
+            if (result.players.sample && result.players.sample != null && result.players.sample.length > 0) {
+                const playernames = result.players.sample.map( function(obj) {
                     return obj.name;
                 });
 
@@ -31,7 +31,7 @@ module.exports = {
                     $push: {
                         logs: {
                             online: true,
-                            playersOnline: result.onlinePlayers,
+                            playersOnline: result.players.online,
                             playerNamesOnline: playernames.toString()
                         }
                     }
@@ -41,7 +41,7 @@ module.exports = {
                     $push: {
                         logs: {
                             online: true,
-                            playersOnline: result.onlinePlayers
+                            playersOnline: result.players.online
                         }
                     }
                 }

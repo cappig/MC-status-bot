@@ -32,7 +32,7 @@
     "discord.js-rate-limiter": "^1.2.3",
     "dotenv": "^10.0.0",
     "fast-xml-parser": "^3.20.3",
-    "minecraft-server-util": "^4.1.1",
+    "minecraft-server-util": "^5.1.1",
     "moment": "^2.29.1",
     "mongo-sanitize": "^1.1.0",
     "mongoose": "^6.0.10",
