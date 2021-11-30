@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { curly } = require('node-libcurl');
+const axios = require('axios');
 const parser = require("fast-xml-parser");
 
 module.exports = {
@@ -10,10 +10,13 @@ module.exports = {
         
         // Get the xml, we emulate a browser by including the user-agent header
         try {
-            const { data } = await curly.get('https://www.minecraft.net/en-us/feeds/community-content/rss', {
-                httpHeader: ['User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'],
-            });
-            const feed = parser.parse(data.toString());
+            const data = await axios.get('https://www.minecraft.net/en-us/feeds/community-content/rss', {
+                headers: {
+                    httpHeader: 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'
+                }
+            })
+
+            const feed = parser.parse(data.data.toString());
 
             const embed = new Discord.MessageEmbed()
                 .setColor('#008000')

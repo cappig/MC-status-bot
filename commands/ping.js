@@ -34,12 +34,10 @@ module.exports = {
 
         pinger
             .then((result) => {
-                console.log(result)
                 if (result.version.protocol) online(result);
                 else offline(`${ip} didn't return a ping.`, ip);
             })
             .catch((error) => {
-                console.log(error)
                 if (error.code == "ENOTFOUND") offline(`Unable to resolve ${ip}.\nCheck if you entered the correct ip!`, ip);
                 else if (error.code == "ECONNREFUSED") offline(`Unable to resolve ${ip}.\nCan't find a route to the host!`, ip);
                 else if (error.code == "EHOSTUNREACH") offline(`${ip} refused to connect.\nCheck if you specified the correct port!`, ip);

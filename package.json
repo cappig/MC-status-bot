@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/cappig/MC-server-status-bot#readme",
   "dependencies": {
+    "axios": "^0.24.0",
     "chart.js": "^3.6.0",
     "chartjs-node-canvas": "^4.1.4",
     "discord.js": "^13.2.0",
@@ -37,7 +38,6 @@
     "mongo-sanitize": "^1.1.0",
     "mongoose": "^6.0.10",
     "node-cron": "^3.0.0",
-    "node-libcurl": "^2.3.3",
     "pingmc": "^3.1.0",
     "redis": "^3.1.2",
     "topgg-autoposter": "^2.0.0"
