@@ -8,17 +8,17 @@ module.exports = {
     name: 'setup',
     async execute(message, args, client) {
         // Check if the person is admin
-        if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+        if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) && message.member.id != (process.env.OWNERID).toString()) {
             message.channel.send('You have to be a admin to use this command!');
             return;
         }
-        
+
         if (args.length > 0) {
             try {
                 setip.execute(message, args, client);
             } catch (error) {
                 console.error(error);
-                message.reply({ content: 'Uh, oh! An error occurred while trying to set the ip! (**X  _  X**)', allowedMentions: { repliedUser: false }})
+                message.reply({ content: 'Uh, oh! An error occurred while trying to set the ip! (**X  _  X**)', allowedMentions: { repliedUser: false } })
             }
         }
 
@@ -103,12 +103,12 @@ module.exports = {
 
 
         const portnum = Number(result.IP.split(':')[1]);
-        const port =  portnum < 65536 || portnum > 0 ? portnum : NaN;
+        const port = portnum < 65536 || portnum > 0 ? portnum : NaN;
 
         if (result.Bedrock == true) {
-            var pinger = util.statusBedrock(ip.split(':')[0].toLowerCase(), { port: port ? port : 19132})
+            var pinger = util.statusBedrock(ip.split(':')[0].toLowerCase(), { port: port ? port : 19132 })
         } else {
-            var pinger = util.status(ip.split(':')[0].toLowerCase(), { port: port ? port : 25565})
+            var pinger = util.status(ip.split(':')[0].toLowerCase(), { port: port ? port : 25565 })
         }
 
         pinger

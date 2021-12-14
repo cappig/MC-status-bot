@@ -9,7 +9,7 @@ module.exports = {
 
     execute(message, args) {
         // Check if the person is admin
-        if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+        if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) && message.member.id != (process.env.OWNERID).toString()) {
             message.channel.send('You have to be a admin to use this command!');
             return;
         }
@@ -35,14 +35,14 @@ module.exports = {
         if (logging == true) {
             // Create a log document
             Log.findByIdAndUpdate({
-                _id: message.guild.id
-            }, {
-                "logs": []
-            }, {
-                useFindAndModify: false,
-                new: true,
-                upsert: true
-            }).cache()
+                    _id: message.guild.id
+                }, {
+                    "logs": []
+                }, {
+                    useFindAndModify: false,
+                    new: true,
+                    upsert: true
+                }).cache()
                 .catch((err) => {
                     // This code means that the document already exists. We can just ignore this since no new document is created
                     if (!err.code == 11000) {

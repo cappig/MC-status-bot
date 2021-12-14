@@ -8,7 +8,7 @@ module.exports = {
     name: 'setip',
     execute(message, args) {
         // Check if the person is admin
-        if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+        if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) && message.member.id != (process.env.OWNERID).toString()) {
             message.channel.send('You have to be a admin to use this command!');
             return;
         }
@@ -19,7 +19,7 @@ module.exports = {
 
         var ip = args[0].toString().toLowerCase();
         const bedrock = args[1] == 'bedrock' || args[1] == 'b' ? true : false
-        
+
         // Write changes to database
         Server.findByIdAndUpdate({
                 _id: message.guild.id

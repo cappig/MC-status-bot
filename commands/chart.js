@@ -12,20 +12,22 @@ module.exports = {
         }
 
         //message.channel.sendTyping();
+        // Get the ip. data.IP holds the ip
+        const data = await lookup('Server', message.guild.id);
+        if (!data.Logging) {
+            return message.channel.send("This server has loggin set to off. please ask an admin to do `mc!log on`");
+        }
 
         // Get the logs
-        const logs = await lookup('Log', message.guild.id) 
-
-        // Get the ip. data.IP holds the ip
-        const data = await lookup('Server', message.guild.id) 
-
-        // Check if logs exist
+        const logs = await lookup('Log', message.guild.id)
+            // Check if logs exist
         if (logs.length <= 1 || logs == null || !data.IP) {
             message.channel.send("This server doesn't have any logs. Make sure that logging is turned on by using the `mc!log on` command.");
             return;
         }
 
-        var xlbl = [], ylbl = [];
+        var xlbl = [],
+            ylbl = [];
 
         if (args == 'playersonline') {
             // Check if logs are empty
@@ -49,8 +51,7 @@ module.exports = {
             })
 
             var embeddescr = `There have been a maximum of ${Math.max( ...ylbl )} players online at onece, and a minimum of ${Math.min( ...ylbl )}.`
-        }
-        else if (args == 'uptime') {
+        } else if (args == 'uptime') {
             // Check if logs are empty
             if (logs.length == 0) {
                 message.channel.send('The logs are empty right now, please wait for them to update!');
@@ -80,15 +81,15 @@ module.exports = {
                 xlbl.push(moment(log.timestamp).format('HH:mm'));
             })
             var embeddescr = `${data.IP} was up for ${up * 5} minutes and down for ${down * 5} minutes. This means that ${data.IP} has a uptime percentage of ${Math.round( ((up/(up+down)*100) + Number.EPSILON) * 100) / 100}%`
-        } 
-        else if (args == 'mostactive') {
+        } else if (args == 'mostactive') {
             // Set the options for chart.js
             var type = 'bar',
                 label = 'number of minutes played',
                 line = 1,
                 embedtitle = `Most active players on ${data.IP} in the last 24 hours`;
 
-            var numberofocc = {}, playerslist = [];
+            var numberofocc = {},
+                playerslist = [];
 
             // Get all the players recorded in the logs into a array
             logs.forEach(log => {
@@ -106,7 +107,7 @@ module.exports = {
             // Create a object with the number of times a player has been online
             playerslist.forEach(function(e) {
                 if (numberofocc.hasOwnProperty(e)) numberofocc[e]++
-                else numberofocc[e] = 1;
+                    else numberofocc[e] = 1;
             })
 
             // Sort it by the value
@@ -118,8 +119,7 @@ module.exports = {
                 ylbl.push(element[1] * 5);
             });
             var embeddescr = `${xlbl[0]} was the most active player with ${ylbl[0]} minutes spent online in the last 24 hours.`
-        } 
-        else {
+        } else {
             message.channel.send("mc!`" + args.toString() + "` isn't a valid option! Use `mc!chart uptime`, `mc!chart playersonline` or `mc!chart mostactive`")
             return;
         }
@@ -148,7 +148,7 @@ module.exports = {
             width,
             height: 400
         });
-        (async () => {
+        (async() => {
             const configuration = {
                 type,
                 data: {
@@ -170,7 +170,7 @@ module.exports = {
                             radius: 0
                         }
                     },
-                    plugins: { 
+                    plugins: {
                         legend: {
                             labels: {
                                 color: "rgb(247, 247, 247)",
