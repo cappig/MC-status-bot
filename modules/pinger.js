@@ -13,14 +13,16 @@ module.exports = {
             const ip = server.IP.split(':')[0];
 
             const portnum = Number(server.IP.split(':')[1]);
-            const port =  portnum < 65536 || portnum > 0 ? portnum : NaN;
+            const port = portnum < 65536 || portnum > 0 ? portnum : NaN;
 
             if (server.Bedrock == true) {
                 var pinger = util.statusBedrock(ip, port ? port : 19132);
             } else {
-                var pinger = util.status(ip, port ? port : 25565);
+                var pinger = util.status(ip, port ? port : 25565, {
+                    timeout: 60000,
+                });
             }
-    
+
             pinger
                 .then((result) => {
                     // Aternos servers stay online and display Offline in their MOTD when they are actually offline
@@ -30,8 +32,7 @@ module.exports = {
                             logger.execute('', server);
                         }
                         channupd.execute(client, server, '');
-                    }
-                    else {
+                    } else {
                         // server is online
                         if (server.Logging == true) {
                             logger.execute(result, server);
