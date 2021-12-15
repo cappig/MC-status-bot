@@ -5,7 +5,7 @@
  */
 const Server = require('../database/ServerSchema');
 const { geetallCache } = require('../modules/cache.js');
-
+require('../modules/cache.js')
 module.exports = {
     async execute(client) {
         // Array of guild ids that the bot is in
@@ -20,10 +20,10 @@ module.exports = {
         for (const guild of guilds) {
             if (!database.includes(guild)) {
                 a++;
-
-                const server = new Server({_id: guild});
-                server.save()
-                    .catch((err) => console.error(err))
+                await Server.create({ _id: guild });
+                Server.findOne({ _id: guild }).cache()
+                    .catch((err) => console.error(err));;
+                console.log(`guildscan added: ${guild}`);
             }
         }
 
@@ -36,7 +36,8 @@ module.exports = {
                     }, {
                         useFindAndModify: false
                     }).cache()
-                    .catch((err) => console.error(err))
+                    .catch((err) => console.error(err));
+                console.log(`guildscan removed: ${entry}`)
             }
         }
 
