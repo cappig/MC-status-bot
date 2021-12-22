@@ -28,7 +28,7 @@ module.exports = {
 
         // Start the dashboard
         console.log('Starting the dashboard.');
-        require("../dashboard/dashboard.js");
+        //require("../dashboard/dashboard.js");
 
         // Post stats to top.gg
         if (process.env.TOPGGAPI) {

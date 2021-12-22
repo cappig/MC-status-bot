@@ -1,5 +1,5 @@
 const express = require("express");
-const { lookup } = require('../../modules/cache.js');
+const { lookup } = require('../../bot/modules/cache.js');
 const {isLoggedIn, findGuildId} = require("../modules/middleware.js");
 const {genChart} = require("../modules/chart.js");
 

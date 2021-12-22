@@ -1,0 +1,48 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "description": "A discord bot that displays if a MC server is online",
+  "main": "index.js",
+  "scripts": {
+    "start": "pm2 start index.js -- --guildscan",
+    "stop": "pm2 kill",
+    "restart": "npm run stop && npm run start",
+    "dev": "npx nodemon .",
+    "beautify": "fd . -t f -e js -x js-beautify -b collapse,preserve-inline -r {}"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cappig/MC-server-status-bot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "minecraft",
+    "dashboard"
+  ],
+  "author": "Cappig",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cappig/MC-server-status-bot/issues"
+  },
+  "homepage": "https://github.com/cappig/MC-server-status-bot#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "chart.js": "^3.6.0",
+    "chartjs-node-canvas": "^4.1.4",
+    "discord.js": "^13.2.0",
+    "discord.js-rate-limiter": "^1.2.3",
+    "dotenv": "^10.0.0",
+    "fast-xml-parser": "^3.20.3",
+    "minecraft-server-util": "^5.1.1",
+    "moment": "^2.29.1",
+    "mongo-sanitize": "^1.1.0",
+    "mongoose": "^6.0.10",
+    "node-cron": "^3.0.0",
+    "redis": "^3.1.2",
+    "topgg-autoposter": "^2.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}

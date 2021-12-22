@@ -2,13 +2,22 @@
   "name": "mc-server-status-bot",
   "version": "1.0.0",
   "description": "A discord bot that displays if a MC server is online",
-  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "bot",
+    "dashboard"
+  ],
   "scripts": {
-    "start": "pm2 start index.js -- --guildscan",
-    "stop": "pm2 kill",
-    "restart": "npm run stop && npm run start",
-    "dev": "npx nodemon .",
-    "beautify": "fd . -t f -e js -x js-beautify -b collapse,preserve-inline -r {}"
+    "bot": "yarn workspace bot",
+    "bot:start": "yarn bot start",
+    "bot:stop": "yarn bot stop",
+    "bot:dev": "yarn bot dev",
+
+    "dash": "yarn workspace dashboard",
+    "dash:sassc": "yarn dash sassc",
+    "dash:sassw": "yarn dash sassw",
+    "dash:dev": "yarn dash dev",
+    "dash:start": "yarn dash build"
   },
   "repository": {
     "type": "git",
@@ -17,35 +26,12 @@
   "keywords": [
     "discord",
     "bot",
-    "minecraft"
+    "minecraft",
+    "dashboard"
   ],
   "author": "Cappig",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/cappig/MC-server-status-bot/issues"
-  },
-  "homepage": "https://github.com/cappig/MC-server-status-bot#readme",
-  "dependencies": {
-    "axios": "^0.24.0",
-    "chart.js": "^3.6.0",
-    "chartjs-node-canvas": "^4.1.4",
-    "discord.js": "^13.2.0",
-    "discord.js-rate-limiter": "^1.2.3",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "express-session": "^1.17.2",
-    "fast-xml-parser": "^3.20.3",
-    "minecraft-server-util": "^5.1.1",
-    "moment": "^2.29.1",
-    "mongo-sanitize": "^1.1.0",
-    "mongoose": "^6.0.10",
-    "node-cron": "^3.0.0",
-    "pingmc": "^3.1.0",
-    "pug": "^3.0.2",
-    "redis": "^3.1.2",
-    "topgg-autoposter": "^2.0.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.13"
   }
 }

@@ -1,0 +1,25 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "sassc": "sass public/sass:public/css",
+    "sassw": "sass --watch public/sass:public/css",
+    "start": "yarn run sassc && NODE_ENV=production node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "compression": "^1.7.4",
+    "connect-mongodb-session": "^3.1.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "express-session": "^1.17.2",
+    "graphql": "^16.2.0",
+    "passport": "^0.5.2",
+    "passport-discord": "^0.1.4",
+    "pug": "^3.0.2",
+    "socket.io-client": "^4.4.0"
+  }
+}

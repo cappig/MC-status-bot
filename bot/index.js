@@ -2,7 +2,7 @@ const { Client, Intents, Collection } = require('discord.js');
 const { RateLimiter } = require('discord.js-rate-limiter');
 const fs = require('fs');
 const mongoose = require('mongoose');
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 
 const Log = require('./database/logSchema');
 const Server = require('./database/ServerSchema');
@@ -57,6 +57,8 @@ redisclient.flushall('SYNC', async function (err, succeeded) {
 });
 // Make the redis client global
 global.redisclient = redisclient;
+
+require("./modules/dashapi.js")
 
 // Command handling
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));

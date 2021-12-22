@@ -1,14 +1,28 @@
 const express = require("express");
 const compression = require("compression");
-const path = require("path");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
+const mongoose = require('mongoose');
 const passport = require("passport");
+const path = require("path");
+const redis = require("redis");
+const axios = require('axios');
+require('dotenv').config({ path: '../.env' })
 
 const port = process.env.PORT || 3000;
 const app = express();
 
+const redisclient = redis.createClient();
+global.redisclient = redisclient;
+
 require('./modules/passport.js');
+
+mongoose.connect(process.env.DBURL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => console.log('\x1b[2m%s\x1b[0m', '   ⤷ Connected to database!'))
+  .catch((err) => console.error(err));
 
 // Session config
 const store = new MongoDBStore({
@@ -32,10 +46,10 @@ app.use(
   })
 );
 
-// Get commands
-const client = global.client;
-const commands = [ ...client.commands.values()]
-global.commands = commands;
+axios.get('http://localhost:3100/commands').then(res => {
+  console.log(res.data)
+  global.commands = res.data.commands;
+});
 
 // Start passport
 app.use(passport.initialize());
