@@ -7,7 +7,7 @@
     "start": "pm2 start index.js -- --guildscan",
     "stop": "pm2 kill",
     "restart": "npm run stop && npm run start",
-    "dev": "npx nodemon .",
+    "dev": "nodemon .",
     "beautify": "fd . -t f -e js -x js-beautify -b collapse,preserve-inline -r {}"
   },
   "repository": {
@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/cappig/MC-server-status-bot#readme",
   "dependencies": {
+    "@tinyhttp/app": "^2.0.13",
     "axios": "^0.24.0",
     "chart.js": "^3.6.0",
     "chartjs-node-canvas": "^4.1.4",
@@ -34,12 +35,17 @@
     "discord.js-rate-limiter": "^1.2.3",
     "dotenv": "^10.0.0",
     "fast-xml-parser": "^3.20.3",
+    "fastify": "^3.25.2",
+    "fastify-cors": "^6.0.2",
     "minecraft-server-util": "^5.1.1",
     "moment": "^2.29.1",
     "mongo-sanitize": "^1.1.0",
     "mongoose": "^6.0.10",
+    "nanoexpress": "^5.1.2",
     "node-cron": "^3.0.0",
     "redis": "^3.1.2",
+    "restana": "^4.9.2",
+    "socket.io": "^4.4.0",
     "topgg-autoposter": "^2.0.0"
   },
   "devDependencies": {

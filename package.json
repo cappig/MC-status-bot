@@ -12,12 +12,9 @@
     "bot:start": "yarn bot start",
     "bot:stop": "yarn bot stop",
     "bot:dev": "yarn bot dev",
-
     "dash": "yarn workspace dashboard",
-    "dash:sassc": "yarn dash sassc",
-    "dash:sassw": "yarn dash sassw",
     "dash:dev": "yarn dash dev",
-    "dash:start": "yarn dash build"
+    "dash:build": "yarn dash build"
   },
   "repository": {
     "type": "git",

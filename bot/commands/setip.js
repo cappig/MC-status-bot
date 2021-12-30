@@ -6,6 +6,8 @@ require('../modules/cache.js');
 
 module.exports = {
     name: 'setip',
+    description: 'Set the monitoring ip',
+    admin: true,
     execute(message, args) {
         // Check if the person is admin
         if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) && message.member.id != (process.env.OWNERID).toString()) {

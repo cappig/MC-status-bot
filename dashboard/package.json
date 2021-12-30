@@ -1,25 +1,27 @@
 {
   "name": "dashboard",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "sassc": "sass public/sass:public/css",
-    "sassw": "sass --watch public/sass:public/css",
-    "start": "yarn run sassc && NODE_ENV=production node index.js",
-    "dev": "nodemon index.js"
+    "dev": "svelte-kit dev",
+    "build": "svelte-kit build",
+    "package": "svelte-kit package",
+    "preview": "svelte-kit preview"
   },
-  "dependencies": {
-    "axios": "^0.24.0",
-    "compression": "^1.7.4",
-    "connect-mongodb-session": "^3.1.1",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.2",
-    "express-session": "^1.17.2",
-    "graphql": "^16.2.0",
-    "passport": "^0.5.2",
-    "passport-discord": "^0.1.4",
-    "pug": "^3.0.2",
-    "socket.io-client": "^4.4.0"
-  }
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "next",
+    "@sveltejs/adapter-node": "^1.0.0-next.56",
+    "@sveltejs/kit": "next",
+    "@tailwindcss/forms": "^0.4.0",
+    "@tailwindcss/typography": "^0.5.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.5",
+    "postcss-cli": "^9.1.0",
+    "svelte": "^3.44.3",
+    "svelte-preprocess": "^4.10.1",
+    "svelte-search": "^2.0.0",
+    "tailwind-scrollbar": "^1.3.1",
+    "tailwindcss": "^3.0.7"
+  },
+  "type": "module"
 }

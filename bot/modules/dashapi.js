@@ -1,18 +1,25 @@
-// Sreate a API to allow communications between bot and dashboard
-const express = require("express");
 
-const port = process.env.PORT || 3100;
-const app = express();
+// API to facilitate communications between bot and dashboard
+const fastify = require('fastify')
 
-app.get('/commands', function(req, res) {
-    commands = [ ...global.client.commands.values()]
+const port = process.env.APIPORT || 3100
+const app = fastify()
 
-    res.json({commands});
-});
+app.register(require('fastify-cors'));
 
-app.get('/guild/:id', function(req, res) {
-    res.json({data: global.client.guilds.cache.get(req.params.id)});
-});
+// Info routes - used to get data from the bot
+app.get('/', (req, res) => {
+    return res.send({msg: "No place like 127.0.0.1 . . ."})
+})
 
-// Only accept local requests
-app.listen(port, 'localhost', () => console.log(` Dashboard is up and running on port ${port}`))
+app.get('/commands', (req, res) => {
+    return res.send([ ...global.client.commands.values()])
+})
+
+app.get('/guild/:id', (req, res) => {
+    return res.send(global.client.guilds.cache.get(req.params.id))
+})
+
+app.listen(port, '127.0.0.1', () => {
+    console.log(`Backend API is up and running on port ${port}`)
+})
