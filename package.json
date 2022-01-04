@@ -4,11 +4,11 @@
   "description": "A discord bot that displays if a MC server is online",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start index.js -- --guildscan",
-    "stop": "pm2 kill",
-    "restart": "npm run stop && npm run start",
-    "dev": "npx nodemon .",
-    "beautify": "fd . -t f -e js -x js-beautify -b collapse,preserve-inline -r {}"
+    "start": "node index.js --guildscan",
+    "start:pm2": "pm2 start index.js -- --guildscan",
+    "stop:pm2": "pm2 kill",
+    "restart:pm2": "npm run stop:pm2 && npm run start:pm2",
+    "dev": "npx nodemon ."
   },
   "repository": {
     "type": "git",
@@ -27,22 +27,21 @@
   "homepage": "https://github.com/cappig/MC-server-status-bot#readme",
   "dependencies": {
     "axios": "^0.24.0",
-    "chart.js": "^3.6.0",
-    "chartjs-node-canvas": "^4.1.4",
-    "discord.js": "^13.2.0",
+    "chart.js": "^3.7.0",
+    "chartjs-node-canvas": "^4.1.5",
+    "discord.js": "^13.5.0",
     "discord.js-rate-limiter": "^1.2.3",
     "dotenv": "^10.0.0",
-    "fast-xml-parser": "^3.20.3",
-    "minecraft-server-util": "^5.1.1",
+    "fast-xml-parser": "^4.0.0-beta.8",
+    "ioredis": "^4.28.2",
+    "minecraft-server-util": "^5.2.8",
     "moment": "^2.29.1",
     "mongo-sanitize": "^1.1.0",
-    "mongoose": "^6.0.10",
+    "mongoose": "^6.1.4",
     "node-cron": "^3.0.0",
-    "pingmc": "^3.1.0",
-    "redis": "^3.1.2",
-    "topgg-autoposter": "^2.0.0"
+    "topgg-autoposter": "^2.0.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.13"
+    "nodemon": "^2.0.15"
   }
 }

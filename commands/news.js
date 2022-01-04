@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const axios = require('axios');
-const parser = require("fast-xml-parser");
+const {XMLParser} = require("fast-xml-parser");
 
 module.exports = {
     name: 'news',
@@ -16,6 +16,7 @@ module.exports = {
                 }
             })
 
+            const parser = new XMLParser();
             const feed = parser.parse(data.data.toString());
 
             const embed = new Discord.MessageEmbed()

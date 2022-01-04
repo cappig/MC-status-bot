@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+
+  database:
+    image: mongo
+    container_name: mongo
+    restart: unless-stopped
+    ports:
+      - 27017-27019:27017-27019
+    volumes:
+      - database:/bot
+
+  cache:
+    image: redis
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+
+  bot:
+    build: .
+    image: mcbot
+    restart: unless-stopped
+    env_file: .env
+    depends_on:
+      - database
+      - cache
+
+volumes:
+  database:
