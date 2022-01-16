@@ -1,6 +1,7 @@
 const Server = require('../database/ServerSchema');
 const { Permissions } = require('discord.js');
 const { lookup } = require('../modules/cache.js');
+const logger = require('../modules/nodeLogger.js')
 
 module.exports = {
     name: 'rmchann',
@@ -26,7 +27,7 @@ module.exports = {
             await message.guild.channels.cache.get(result.NumberChannId).delete();
             await message.guild.channels.cache.get(result.CategoryId).delete();
         } catch (err) {
-            if (!err == "TypeError: Cannot read properties of undefined (reading 'delete')") console.error(err);
+            if (!err == "TypeError: Cannot read properties of undefined (reading 'delete')") logger.error(err);
         }
 
         // Remove from db
@@ -43,6 +44,6 @@ module.exports = {
                 new: true
             }).cache()
             .then(() => message.channel.send('The channels have been removed!'))
-            .catch((err) => console.error(err))
+            .catch((err) => logger.error(err))
     }
 }

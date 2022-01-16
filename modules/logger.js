@@ -1,5 +1,6 @@
 const Log = require('../database/logSchema');
 const { lookup } = require('../modules/cache.js');
+const logger = require('../modules/nodeLogger.js')
 
 module.exports = {
     async execute(result, server) {
@@ -17,7 +18,7 @@ module.exports = {
                 useFindAndModify: false,
                 new: true
             }).cache()
-            .catch((err) => console.error(err))
+            .catch((err) => logger.error(err))
         }
 
         // Log the status
@@ -61,6 +62,6 @@ module.exports = {
                 useFindAndModify: false,
                 new: true
             }).cache()
-            .catch((err) => console.error(err))
+            .catch((err) => logger.error(err))
     }
 }

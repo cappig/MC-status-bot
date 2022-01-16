@@ -6,6 +6,8 @@
 const Server = require('../database/ServerSchema');
 const { geetallCache } = require('../modules/cache.js');
 require('../modules/cache.js')
+const logger = require('../modules/nodeLogger.js')
+
 module.exports = {
     async execute(client) {
         // Array of guild ids that the bot is in
@@ -22,8 +24,8 @@ module.exports = {
                 a++;
                 await Server.create({ _id: guild });
                 Server.findOne({ _id: guild }).cache()
-                    .catch((err) => console.error(err));;
-                console.log(`guildscan added: ${guild}`);
+                    .catch((err) => logger.error(err));
+                logger.info(`guildscan added: ${guild}`);
             }
         }
 
@@ -36,11 +38,11 @@ module.exports = {
                     }, {
                         useFindAndModify: false
                     }).cache()
-                    .catch((err) => console.error(err));
-                console.log(`guildscan removed: ${entry}`)
+                    .catch((err) => logger.error(err));
+                logger.info(`guildscan removed: ${entry}`)
             }
         }
 
-        console.log('\x1b[1m%s\x1b[0m', `Ended guild scan. Added ${a} new guilds, and removed ${l} old guilds from the database`);
+        logger.success(`Ended guild scan. Added ${a} new guilds, and removed ${l} old guilds from the database`);
     }
 }

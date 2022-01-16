@@ -12,15 +12,13 @@ module.exports = {
 
             const ip = server.IP.split(':')[0];
 
-            const portnum = Number(server.IP.split(':')[1]);
-            const port = portnum < 65536 || portnum > 0 ? portnum : NaN;
-
+            const portnum = parseInt(server.IP.split(':')[1]);
+            const port = portnum < 65536 && portnum > 0 ? portnum : undefined;
+    
             if (server.Bedrock == true) {
-                var pinger = util.statusBedrock(ip, port ? port : 19132);
+                var pinger = util.statusBedrock(ip.split(':')[0].toLowerCase(), port ? port : 19132)
             } else {
-                var pinger = util.status(ip, port ? port : 25565, {
-                    timeout: 60000,
-                });
+                var pinger = util.status(ip.split(':')[0].toLowerCase(), port ? port : 25565)
             }
 
             pinger

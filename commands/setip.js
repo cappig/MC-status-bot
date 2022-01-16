@@ -2,6 +2,7 @@ const Server = require('../database/ServerSchema');
 const Log = require('../database/logSchema');
 const sanitize = require('mongo-sanitize');
 const { Permissions } = require('discord.js');
+const logger = require('../modules/nodeLogger.js')
 require('../modules/cache.js');
 
 module.exports = {
@@ -30,7 +31,7 @@ module.exports = {
                 useFindAndModify: false,
                 new: true
             }).cache()
-            .catch((err) => console.error(err))
+            .catch((err) => logger.error(err))
 
         // Remove all logs
         Log.findByIdAndUpdate({
@@ -43,7 +44,7 @@ module.exports = {
                 useFindAndModify: false,
                 new: true
             }).cache()
-            .catch((err) => console.error(err))
+            .catch((err) => logger.error(err))
 
         message.channel.send('The main IP has been set to: `' + args[0] + '`')
     }

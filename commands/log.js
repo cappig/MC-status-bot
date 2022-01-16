@@ -2,7 +2,7 @@ const Server = require('../database/ServerSchema');
 const Log = require('../database/logSchema');
 const { Permissions } = require('discord.js');
 require('../modules/cache.js');
-
+const logger = require('../modules/nodeLogger.js')
 
 module.exports = {
     name: 'log',
@@ -30,7 +30,7 @@ module.exports = {
                 useFindAndModify: false,
                 new: true
             }).cache()
-            .catch((err) => console.error(err))
+            .catch((err) => logger.error(err))
 
         if (logging == true) {
             // Create a log document
@@ -46,7 +46,7 @@ module.exports = {
                 .catch((err) => {
                     // This code means that the document already exists. We can just ignore this since no new document is created
                     if (!err.code == 11000) {
-                        console.error(err);
+                        logger.error(err);
                     }
                 })
                 .then(message.channel.send(`Logging has been turned on`))
@@ -57,7 +57,7 @@ module.exports = {
                     useFindAndModify: false,
                     new: true
                 }).cache()
-                .catch((err) => console.error(err))
+                .catch((err) => logger.error(err))
                 .then(message.channel.send(`Logging has been turned off`))
         }
     }

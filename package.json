@@ -4,8 +4,8 @@
   "description": "A discord bot that displays if a MC server is online",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js --guildscan",
-    "start:pm2": "pm2 start index.js -- --guildscan",
+    "start": "node index.js",
+    "start:pm2": "pm2 start index.js",
     "stop:pm2": "pm2 kill",
     "restart:pm2": "npm run stop:pm2 && npm run start:pm2",
     "dev": "npx nodemon ."
@@ -27,11 +27,12 @@
   "homepage": "https://github.com/cappig/MC-server-status-bot#readme",
   "dependencies": {
     "axios": "^0.24.0",
+    "chalk": "4.1.2",
     "chart.js": "^3.7.0",
     "chartjs-node-canvas": "^4.1.5",
     "discord.js": "^13.5.0",
     "discord.js-rate-limiter": "^1.2.3",
-    "dotenv": "^10.0.0",
+    "dotenv": "^12.0.3",
     "fast-xml-parser": "^4.0.0-beta.8",
     "ioredis": "^4.28.2",
     "minecraft-server-util": "^5.2.8",

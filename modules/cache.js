@@ -3,6 +3,7 @@ const Server = require('../database/ServerSchema');
 
 const util = require("util");
 const mongoose = require("mongoose");
+const logger = require('../modules/nodeLogger.js')
 
 const client = global.redisclient;
 client.hget = util.promisify(client.hget);
@@ -24,7 +25,7 @@ module.exports = {
 
         // Mongo fallback
         else {
-            console.log(`${key} just fellback to mongo while looking for the ${collection} collection!`)
+            logger.info(`${key} just fellback to mongo while looking for the ${collection} collection!`)
             var result;
             if (collection == 'Log') {
                 result = await Log.findById({ _id: key });
@@ -42,7 +43,7 @@ module.exports = {
                 value._id = undefined; // Remove the _id from the value
                 client.hset(collection, key, JSON.stringify(value));
             } else {
-                console.error(`${collection} is not a valid collection name - Log or Server!`);
+                logger.error(`${collection} is not a valid collection name - Log or Server!`);
                 return;
             }
 
@@ -57,7 +58,7 @@ module.exports = {
         } else if (collection == 'Server') {
             client.hset(collection, key, '{"IP": "", "Logging": false}');
         } else {
-            console.error(`${collection} is not a valid collection name - Log or Server!`);
+            logger.error(`${collection} is not a valid collection name - Log or Server!`);
             return;
         }
     },
@@ -106,7 +107,7 @@ mongoose.Query.prototype.cache = async function() {
         await client.hset('Server', key, JSON.stringify(value));
         return;
     } else {
-        console.error(`${this.mongooseCollection.name} is not a valid collection name!`);
+        logger.error(`${this.mongooseCollection.name} is not a valid collection name!`);
         return;
     }
 };

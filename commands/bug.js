@@ -2,8 +2,8 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'bug',
-    execute(message, args, client) {
-        const owner = client.users.cache.get(process.env.OWNERID)
+    async execute(message, args, client) {
+        const owner = await client.users.fetch(process.env.OWNERID)
         const bug = args.slice(0).join(' ');
 
         if (!bug) {

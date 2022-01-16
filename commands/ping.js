@@ -1,6 +1,7 @@
 const util = require('minecraft-server-util');
 const Discord = require('discord.js');
 const { lookup } = require('../modules/cache.js');
+const logger = require('../modules/nodeLogger.js')
 
 module.exports = {
     name: 'ping',
@@ -8,28 +9,28 @@ module.exports = {
         message.channel.sendTyping();
 
         if (!args[0]) {
-            var data = await lookup('Server', message.guild.id);
+            let data = await lookup('Server', message.guild.id);
 
             if (!data.IP) {
                 message.channel.send('Please specify a IP address to ping!');
                 return;
             }
 
-            if (data.Bedrock == true) var bedrock = 'ඞ';
+            if (data.Bedrock == true) var bedrock = true;
 
-            var ip = data.IP.split(':')[0];
-            var portnum = Number(data.IP.split(':')[1]);
+            var ip = data.IP.split(':')[0].toLowerCase();
+            var portnum = parseInt(data.IP.split(':')[1]);
         } else {
             var ip = args[0].split(':')[0].toLowerCase();
-            var portnum = Number(args[0].split(':')[1]);
+            var portnum = parseInt(args[0].split(':')[1]);
         }
 
-        const port =  portnum < 65536 || portnum > 0 ? portnum : NaN;
+        const port = portnum < 65536 && portnum > 0 ? portnum : undefined;
 
         if (bedrock || args[1] == 'bedrock' || args[1] == 'b') {
-            var pinger = util.statusBedrock(ip, port ? port : 19132)
+            var pinger = util.statusBedrock(ip.split(':')[0].toLowerCase(), port ? port : 19132)
         } else {
-            var pinger = util.status(ip, port ? port : 25565)
+            var pinger = util.status(ip.split(':')[0].toLowerCase(), port ? port : 25565)
         }
 
         pinger
@@ -42,9 +43,9 @@ module.exports = {
                 else if (error.code == "ECONNREFUSED") offline(`Unable to resolve ${ip}.\nCan't find a route to the host!`, ip);
                 else if (error.code == "EHOSTUNREACH") offline(`${ip} refused to connect.\nCheck if you specified the correct port!`, ip);
                 else if (error.code == "ECONNRESET") offline(`${ip} abruptly closed the connection.\nThere is some kind of issue on the server side!`, ip);
-                else if (error == "Error: Socket timed out while connecting") offline(`${ip} didn't return a ping.\nTimed out.`, ip);
+                else if (error == "Error: Timed out while retrieving server status") offline(`${ip} didn't return a ping.\nTimed out.`, ip);
                 else {
-                    console.log("A error occurred while trying to ping: ", error);
+                    logger.error("A error occurred while trying to ping: " + error);
                     offline(`${ip} refused to connect.`, ip);
                 }
                 return;

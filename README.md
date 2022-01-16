@@ -13,7 +13,7 @@ Create graphs, and log the status of a server:
 
 ![img2](https://i.ibb.co/grR1NY9/chartex.png)
 
-### :arrow_right: **[Add this bot to your server](https://discord.com/oauth2/authorize?client_id=816747912888975362&scope=bot&permissions=268749904)**
+### :arrow_right: **[Add this bot to your server](https://discord.com/oauth2/authorize?client_id=816747912888975362&permissions=269798480&scope=bot%20applications.commands)**
 
 ## *Commands*
 By putting the word 'bedrock' or just the letter 'b' the bot will ping this ip using the bedrock protocol.

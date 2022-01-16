@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const axios = require('axios');
 const {XMLParser} = require("fast-xml-parser");
+const logger = require('../modules/nodeLogger.js')
 
 module.exports = {
     name: 'news',
@@ -35,7 +36,7 @@ module.exports = {
                 
             message.channel.send({ embeds: [embed] });
         } catch (err) {
-            console.error(err);
+            logger.error(err);
             message.channel.send('Uh oh, an error occurred while trying to fetch the news! Try again later!');
             return;
         }
