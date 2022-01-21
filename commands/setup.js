@@ -27,22 +27,17 @@ module.exports = {
 		}
 
 		// Check if bot has all the permissions
-		if (!message.guild.me.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) {
+		if (!message.guild.me.permissions.has([Permissions.FLAGS.MANAGE_ROLES, Permissions.FLAGS.MANAGE_CHANNELS])) {
+			message.channel.send("I don't have the necessary permissions to perform this action! - `Manage roles` and `Manage channels`")
+			return
+		} else if (!message.guild.me.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) {
 			message.channel.send("I don't have the necessary permissions to perform this action! - `Manage channels`")
 			return
+		} else if (!message.guild.me.permissions.has(Permissions.FLAGS.MANAGE_ROLES)) {
+			message.channel.send("I don't have the necessary permissions to perform this action! - `Manage roles`")
+			return
 		}
-		/*
-        if (!message.guild.me.permissions.has([Permissions.FLAGS.MANAGE_ROLES, Permissions.FLAGS.MANAGE_CHANNELS])) {
-            message.channel.send("I don't have the necessary permissions to perform this action! - `Manage roles` and `Manage channels`");
-            return;
-        } else if (!message.guild.me.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) {
-            message.channel.send("I don't have the necessary permissions to perform this action! - `Manage channels`");
-            return;
-        } else if (!message.guild.me.permissions.has(Permissions.FLAGS.MANAGE_ROLES)) {
-            message.channel.send("I don't have the necessary permissions to perform this action! - `Manage roles`");
-            return;
-        } 
-        */
+
 		// Get the ip of the server
 		const result = await lookup('Server', message.guild.id)
 		const ip = result.IP.split(':')[0].toLowerCase()

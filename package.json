@@ -11,6 +11,7 @@
 		"stop:pm2": "pm2 kill",
 		"restart:pm2": "npm run stop:pm2 && npm run start:pm2"
 	},
+	"pre-commit": "format",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/cappig/MC-server-status-bot.git"
@@ -45,6 +46,7 @@
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.15",
+		"pre-commit": "^1.2.2",
 		"prettier": "^2.5.1"
 	}
 }
