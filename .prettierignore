@@ -1,0 +1,7 @@
+node_modules/
+.github/
+README.md
+miscellaneous/Privacy_policy.md
+LICENSE
+yarn.lock
+package.json
