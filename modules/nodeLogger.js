@@ -11,31 +11,31 @@ function append(text) {
 module.exports = logger = {
   info: function (text) {
     let time = moment().format('YYYY-MM-DD HH:mm:ss')
-    console.log(chalk.gray(`${time} [info]: `) + text)
+    process.stdout.write(chalk.gray(`${time} [info]: `) + text + '\n')
 
     append(time + ' [info]: ' + text)
   },
   success: function (text) {
     let time = moment().format('YYYY-MM-DD HH:mm:ss')
-    console.log(chalk.gray(`${time} [${chalk.green('success')}]: `) + text)
+    process.stdout.write(chalk.gray(`${time} [${chalk.green('success')}]: `) + text + '\n')
 
     append(time + ' [success]: ' + text)
   },
   error: function (text) {
     let time = moment().format('YYYY-MM-DD HH:mm:ss')
-    console.error(chalk.gray(`${time} [${chalk.red('error')}]: `) + chalk.red(text))
+    process.stderr.write(chalk.gray(`${time} [${chalk.red('error')}]: `) + chalk.red(text) + '\n')
 
     append(time + ' [error]: ' + text)
   },
   warn: function (text) {
     let time = moment().format('YYYY-MM-DD HH:mm:ss')
-    console.error(chalk.gray(`${time} [${chalk.yellow('warn')}]: `) + text)
+    process.stderr.write(chalk.gray(`${time} [${chalk.yellow('warn')}]: `) + text + '\n')
 
     append(time + ' [warn]: ' + text)
   },
   crash: function (text) {
     let time = moment().format('YYYY-MM-DD HH:mm:ss')
-    console.error(chalk.gray(`${time} [${chalk.red('CRASH')}]: `) + text)
+    process.stderr.write(chalk.gray(`${time} [${chalk.red('CRASH')}]: `) + text + '\n')
 
     append(time + ' [CRASH]: ' + text)
   }
